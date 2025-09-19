@@ -178,7 +178,7 @@ const Story = () => {
                             }}
                         >
                         <video
-                            src="/Home2.mp4"
+                            src="/intro2.jpg"
                             autoPlay
                             loop
                             muted
@@ -282,7 +282,7 @@ const Story = () => {
                         borderRadius: scrollY <= phase1 ? '20px' : '0px'
                     }}>
                         <video
-                            src="/Home2.mp4"
+                            src="/intro2.jpg"
                             autoPlay
                             loop
                             muted
