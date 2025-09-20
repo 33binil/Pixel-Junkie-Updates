@@ -2,9 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 const Story = () => {
     const [scrollY, setScrollY] = useState(0);
-    const [videoLoaded, setVideoLoaded] = useState(false);
     const storyRef = useRef(null);
-    const videoRef = useRef(null);
 
     useEffect(() => {
         // Add scroll event listener
@@ -13,11 +11,6 @@ const Story = () => {
                 const rect = storyRef.current.getBoundingClientRect();
                 const scrollIntoStory = Math.max(0, -rect.top);
                 setScrollY(scrollIntoStory);
-                
-                // Lazy load video when Story section comes into view
-                if (!videoLoaded && rect.top < window.innerHeight) {
-                    setVideoLoaded(true);
-                }
             }
         };
 
@@ -27,7 +20,7 @@ const Story = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [videoLoaded]);
+    }, []);
 
     // Desktop animation phases
     const phase1 = 200; // Video grows from small to full screen
@@ -163,29 +156,19 @@ const Story = () => {
                                 opacity: mobileStoryOpacity
                             }}
                         >
-                        {videoLoaded ? (
-                            <video
-                                ref={videoRef}
-                                src="/Story.mp4"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="metadata"
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                        ) : (
-                            <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                                <div className="text-gray-600 text-center">
-                                    <div className="animate-pulse w-16 h-16 bg-gray-400 rounded-full mx-auto mb-4"></div>
-                                    <p>Loading video...</p>
-                                </div>
-                            </div>
-                        )}
+                        <video
+                            src="/Story.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover'
+                            }}
+                        />
                     </div>
                     )}
 
@@ -279,28 +262,19 @@ const Story = () => {
                         transition: 'all 0.3s ease-out',
                         borderRadius: scrollY <= phase1 ? '20px' : '0px'
                     }}>
-                        {videoLoaded ? (
-                            <video
-                                src="/Story.mp4"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="metadata"
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                        ) : (
-                            <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                                <div className="text-gray-600 text-center">
-                                    <div className="animate-pulse w-16 h-16 bg-gray-400 rounded-full mx-auto mb-4"></div>
-                                    <p>Loading video...</p>
-                                </div>
-                            </div>
-                        )}
+                        <video
+                            src="/Story.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover'
+                            }}
+                        />
                     </div>
 
                     {/* Text content - appears during shrinking phase */}
