@@ -9,6 +9,11 @@ const services = [
 ];
 
 const Services = () => {
+    const handleServicesClick = () => {
+        // Redirect to ServicesPage with refresh
+        window.location.href = '/services';
+    };
+
     return (
         <section className="relative bg-[#3D3C27] text-white pt-[75px] pb-[40px] h-auto" style={{ zIndex: 10 }}>
             <div className="max-w-auto mx-auto px-4 flex flex-col items-center">
@@ -35,7 +40,10 @@ const Services = () => {
 
                 {/* CTA Button */}
                 <div className="mt-20">
-                    <button className="text-[14px] md:text-[16px] font-abhaya text-[#F5F5ED] tracking-[6px] hover:bg-[#F5F5ED] hover:text-[#3D3C27] transition-all duration-300">
+                    <button 
+                        onClick={handleServicesClick}
+                        className="text-[14px] md:text-[16px] font-abhaya text-[#F5F5ED] tracking-[6px] hover:bg-[#F5F5ED] hover:text-[#3D3C27] transition-all duration-300 cursor-pointer"
+                    >
                         View our Services.. →
                     </button>
                 </div>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Loading from './pages/Loading';
 import Home from './pages/Home';
 import About from './pages/About';
 import Intro from './pages/Intro';
 import Services from './pages/Services';
+import ServicesPage from './pages/ServicesPage';
 import Work from './pages/Work';
 import Desc from './pages/Desc';
 import Story from './pages/Story';
@@ -12,7 +14,8 @@ import Bottom from './pages/Bottom';
 import ClientApplication from './pages/ClientApplication';
 import FloatingClientButton from './components/FloatingClientButton';
 
-const App = () => {
+// Main HomePage Component
+const HomePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [showClientApplication, setShowClientApplication] = useState(false);
 
@@ -96,6 +99,17 @@ const App = () => {
                 <ClientApplication onClose={handleCloseClientApplication} />
             )}
         </div>
+    );
+};
+
+const App = () => {
+    return (
+        <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/client-application" element={<ClientApplication />} />
+        </Routes>
     );
 };
 

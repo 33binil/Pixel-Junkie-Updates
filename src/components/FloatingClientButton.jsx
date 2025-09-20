@@ -71,7 +71,7 @@ const FloatingClientButton = ({ onOpen }) => {
         >
             <button
                 onClick={handleClick}
-                className="bg-[#3D3C27] hover:bg-[#4D4C37] text-white px-4 py-3 sm:px-6 sm:py-4 rounded-lg shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl border border-gray-500 hover:border-gray-400"
+                className="bg-[#a95c3d] hover:bg-[#4D4C37] text-white px-4 py-3 sm:px-6 sm:py-4 rounded-lg shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl border border-gray-500 hover:border-gray-400"
             >
                 <div className="flex items-center space-x-2">
                     <svg 

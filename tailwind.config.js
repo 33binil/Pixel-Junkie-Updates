@@ -17,6 +17,7 @@ export default {
         abhaya: ['"Abhaya Libre"', 'serif'],
         lexend: ['"Lexend Giga"', 'sans-serif'],
         alegreya: ['"Alegreya SC"', 'serif'],
+        afacad: ["Afacad", "sans-serif"],
       },
     },
   },

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Bottom from './Bottom';
 
 const ClientApplication = ({ onClose }) => {
     const [formData, setFormData] = useState({
@@ -24,9 +26,42 @@ const ClientApplication = ({ onClose }) => {
         additionalInfo: '',
         contactInfo: ''
     });
+    
+    const [emailError, setEmailError] = useState('');
+    const [fieldErrors, setFieldErrors] = useState({
+        fullName: false,
+        businessName: false,
+        email: false
+    });
+    const [fieldErrorMessages, setFieldErrorMessages] = useState({
+        fullName: '',
+        businessName: '',
+        email: ''
+    });
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        
+        // Special handling for email validation
+        if (name === 'email') {
+            if (value && !validateEmail(value)) {
+                setEmailError('Please enter a valid email address with @ and domain (e.g., user@example.com)');
+            } else {
+                setEmailError('');
+            }
+        }
+        
+        // Clear field error when user starts typing
+        if (fieldErrors[name]) {
+            setFieldErrors(prev => ({ ...prev, [name]: false }));
+            setFieldErrorMessages(prev => ({ ...prev, [name]: '' }));
+        }
+        
         setFormData(prev => ({
             ...prev,
             [name]: value
@@ -45,47 +80,57 @@ const ClientApplication = ({ onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // Check required fields
+        const errors = {
+            fullName: !formData.fullName.trim(),
+            businessName: !formData.businessName.trim(),
+            email: !formData.email.trim() || !validateEmail(formData.email)
+        };
+        
+        // Set error messages
+        const errorMessages = {
+            fullName: !formData.fullName.trim() ? 'Full Name is empty' : '',
+            businessName: !formData.businessName.trim() ? 'Company Name is empty' : '',
+            email: !formData.email.trim() ? 'Email is empty' : (!validateEmail(formData.email) ? 'Please enter a valid email address with @ and domain (e.g., user@example.com)' : '')
+        };
+        
+        setFieldErrors(errors);
+        setFieldErrorMessages(errorMessages);
+        
+        // If any required field is empty, don't submit
+        if (errors.fullName || errors.businessName || errors.email) {
+            return;
+        }
+        
         console.log('Form submitted:', formData);
         // Handle form submission here
         alert('Application submitted successfully! ✅');
     };
+    
+    // Check if the first 3 required fields are filled
+    const isFormValid = formData.fullName.trim() && formData.businessName.trim() && formData.email.trim() && validateEmail(formData.email);
 
     return (
         <div className="fixed inset-0 bg-[#E8E3D8] z-[10000] overflow-auto">
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-400">
-                <h1 className="text-sm sm:text-lg lg:text-xl font-alegreya text-gray-800 tracking-wide">PIXEL JUNKIE CREATIVE STUDIO</h1>
-                <div className="flex items-center space-x-2 sm:space-x-4">
-                    <span className="text-sm sm:text-lg font-alegreya text-gray-800">Menu</span>
-                    <button
-                        onClick={onClose}
-                        className="text-gray-600 hover:text-gray-800 text-xl sm:text-2xl font-bold p-1"
-                    >
-                        ✕
-                    </button>
-                </div>
-            </div>
+            {/* Navbar */}
+            <Navbar currentPage="client-application" />
 
             <div className="flex flex-col lg:flex-row min-h-screen">
                 {/* Image Section - Top on mobile, Left on desktop */}
-                <div className="w-full lg:w-[800px] h-64 lg:h-auto bg-gray-400 flex items-center justify-center flex-shrink-0">
-                    <div className="text-center text-black">
-                        <div className="text-[60px] sm:text-[80px] lg:text-[100px] xl:text-[120px] font-light leading-none">
-                            <div>i</div>
-                            <div>m</div>
-                            <div>a</div>
-                            <div>g</div>
-                            <div>e</div>
-                        </div>
-                        <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 lg:mt-4">*</div>
-                    </div>
+                <div className="w-full lg:w-[500px] xl:w-[600px] h-64 lg:h-auto flex-shrink-0">
+                    <img 
+                        src="/Application.jpg" 
+                        alt="Client Application" 
+                        className="w-full h-full object-cover"
+                    />
                 </div>
 
                 {/* Application Form Section - Bottom on mobile, Right on desktop */}
-                <div className="w-full lg:flex-5 p-6 sm:p-8 lg:p-52">
-                    <div className="max-w-2xl">
-                        <h2 className="text-2xl text-center md:text-[40px] font-architect text-gray-800 mb-4 tracking-wide">CLIENT APPLICATION</h2>
-                        <p className="text-gray-700 text-center font-architect mb-8 leading-relaxed">
+                <div className="w-full lg:flex-1 p-6 sm:p-8 lg:p-12 xl:p-16">
+                    <div className="max-w-3xl lg:max-w-none xl:max-w-4xl mx-auto">
+                        <h2 className="text-2xl text-center md:text-[40px] font-bold font-architect text-gray-800 mb-4 tracking-wide">CLIENT APPLICATION</h2>
+                        <p className="text-gray-700 text-xl font-semibold text-center font-architect mb-12 leading-relaxed">
                             Brilliant work starts with good questions. Here's a quick few from us to get the conversation started.
                         </p>
 
@@ -93,7 +138,7 @@ const ClientApplication = ({ onClose }) => {
                             {/* Name Fields Row */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
                                         Full Name *
                                     </label>
                                     <input
@@ -101,12 +146,19 @@ const ClientApplication = ({ onClose }) => {
                                         name="fullName"
                                         value={formData.fullName}
                                         onChange={handleInputChange}
-                                        className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600"
+                                        className={`w-full p-3 border rounded-sm bg-transparent focus:outline-none ${
+                                            fieldErrors.fullName ? 
+                                            'border-red-400 focus:border-red-600' : 
+                                            'border-gray-400 focus:border-gray-600'
+                                        }`}
                                         required
                                     />
+                                    {fieldErrorMessages.fullName && (
+                                        <p className="text-red-500 text-sm mt-1">{fieldErrorMessages.fullName}</p>
+                                    )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
                                         Business Name *
                                     </label>
                                     <input
@@ -114,15 +166,22 @@ const ClientApplication = ({ onClose }) => {
                                         name="businessName"
                                         value={formData.businessName}
                                         onChange={handleInputChange}
-                                        className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600"
+                                        className={`w-full p-3 border rounded-sm bg-transparent focus:outline-none ${
+                                            fieldErrors.businessName ? 
+                                            'border-red-400 focus:border-red-600' : 
+                                            'border-gray-400 focus:border-gray-600'
+                                        }`}
                                         required
                                     />
+                                    {fieldErrorMessages.businessName && (
+                                        <p className="text-red-500 text-sm mt-1">{fieldErrorMessages.businessName}</p>
+                                    )}
                                 </div>
                             </div>
 
                             {/* Email */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
                                     Email *
                                 </label>
                                 <input
@@ -130,15 +189,23 @@ const ClientApplication = ({ onClose }) => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600"
+                                    className={`w-full p-3 border rounded-sm bg-transparent focus:outline-none ${
+                                        emailError || fieldErrors.email ? 
+                                        'border-red-400 focus:border-red-600' : 
+                                        'border-gray-400 focus:border-gray-600'
+                                    }`}
+                                    placeholder="example@domain.com"
                                     required
                                 />
+                                {(emailError || fieldErrorMessages.email) && (
+                                    <p className="text-red-500 text-sm mt-1">{emailError || fieldErrorMessages.email}</p>
+                                )}
                             </div>
 
                             {/* Business Story */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Tell us more about your business! What's the story behind it? *
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
+                                    Tell us more about your business! What's the story behind it?
                                 </label>
                                 <textarea
                                     name="businessStory"
@@ -146,14 +213,13 @@ const ClientApplication = ({ onClose }) => {
                                     onChange={handleInputChange}
                                     rows="4"
                                     className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600 resize-none"
-                                    required
                                 />
                             </div>
 
                             {/* Excitement */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    What makes you excited about working with Pixel Junkie Creative Studios? *
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
+                                    What makes you excited about working with Pixel Junkie Creative Studios?
                                 </label>
                                 <textarea
                                     name="excitement"
@@ -161,14 +227,13 @@ const ClientApplication = ({ onClose }) => {
                                     onChange={handleInputChange}
                                     rows="4"
                                     className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600 resize-none"
-                                    required
                                 />
                             </div>
 
                             {/* Services */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-4">
-                                    What services are you interested in? Select all that apply.*
+                                <label className="block text-md font-medium text-gray-700 mb-4 font-afacad">
+                                    What services are you interested in? Select all that apply.
                                 </label>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {[
@@ -188,7 +253,7 @@ const ClientApplication = ({ onClose }) => {
                                                 onChange={() => handleCheckboxChange(service.key)}
                                                 className="w-4 h-4 border-2 border-gray-500 rounded-sm text-gray-700 focus:ring-gray-600 focus:ring-2"
                                             />
-                                            <span className="text-sm text-gray-700">{service.label}</span>
+                                            <span className="text-md text-gray-700 font-afacad">{service.label}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -196,7 +261,7 @@ const ClientApplication = ({ onClose }) => {
 
                             {/* Collateral Description */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
                                     If you selected "Collateral Design" or "Other", please describe what type of services or assets you're looking for below:
                                 </label>
                                 <textarea
@@ -210,8 +275,8 @@ const ClientApplication = ({ onClose }) => {
 
                             {/* Budget */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Do you have a budget in mind?*
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
+                                    Do you have a budget in mind?
                                 </label>
                                 <input
                                     type="text"
@@ -219,14 +284,13 @@ const ClientApplication = ({ onClose }) => {
                                     value={formData.budget}
                                     onChange={handleInputChange}
                                     className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600"
-                                    required
                                 />
                             </div>
 
                             {/* Launch Date */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Do you have a specific launch date in mind?*
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
+                                    Do you have a specific launch date in mind?
                                 </label>
                                 <input
                                     type="text"
@@ -234,28 +298,39 @@ const ClientApplication = ({ onClose }) => {
                                     value={formData.launchDate}
                                     onChange={handleInputChange}
                                     className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600"
-                                    required
                                 />
                             </div>
 
                             {/* Business Duration */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    How long have you been in business?*
+                                <label className="block text-md font-medium text-gray-700 mb-4 font-afacad">
+                                    How long have you been in business?
                                 </label>
-                                <textarea
-                                    name="businessDuration"
-                                    value={formData.businessDuration}
-                                    onChange={handleInputChange}
-                                    rows="3"
-                                    className="w-full p-3 border border-gray-400 rounded-sm bg-transparent focus:outline-none focus:border-gray-600 resize-none"
-                                    required
-                                />
+                                <div className="space-y-3">
+                                    {[
+                                        { value: 'Less than 1 year', label: 'Less than 1 year' },
+                                        { value: '1-2 years', label: '1-2 years' },
+                                        { value: '3-5 years', label: '3-5 years' },
+                                        { value: '5 years+', label: '5 years+' }
+                                    ].map(option => (
+                                        <label key={option.value} className="flex items-center space-x-3 cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name="businessDuration"
+                                                value={option.value}
+                                                checked={formData.businessDuration === option.value}
+                                                onChange={handleInputChange}
+                                                className="w-4 h-4 border-2 border-gray-500 text-gray-700 focus:outline-none focus:ring-0"
+                                            />
+                                            <span className="text-md text-gray-700 font-afacad">{option.label}</span>
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Additional Info */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
                                     Is there anything else you'd like to share about you or your project?
                                 </label>
                                 <textarea
@@ -269,7 +344,7 @@ const ClientApplication = ({ onClose }) => {
 
                             {/* Contact Info */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-md font-medium text-gray-700 mb-2 font-afacad">
                                     Thank you! How can we get in touch?
                                 </label>
                                 <input
@@ -295,6 +370,9 @@ const ClientApplication = ({ onClose }) => {
                     </div>
                 </div>
             </div>
+            
+            {/* Bottom Section */}
+            <Bottom />
         </div>
     );
 };

@@ -35,7 +35,7 @@ const Story = () => {
     const mobilePhase5 = 650; // 1000-1350px: Fade out phase when Review section approaches (slower fade)
 
     let videoScale, videoPosition, textOpacity, videoWidth;
-    let mobileVideoScale, mobileVideoBottom, mobileVideoWidth, mobileVideoHeight, mobileTextOpacity, mobileTextPosition, mobileStoryOpacity;
+    let mobileTextOpacity, mobileTextPosition, mobileStoryOpacity;
 
     // Desktop animations (unchanged)
     if (scrollY <= phase1) {
@@ -63,49 +63,28 @@ const Story = () => {
     // Mobile/Tablet animations (your specification)
     if (scrollY <= mobilePhase1) {
         // Phase 1: Video starts small off-screen, slides up and grows to full screen
-        const progress = scrollY / mobilePhase1;
-        mobileVideoScale = 0.3 + (progress * 0.7); // Scale from 0.3 to 1.0
-        mobileVideoWidth = 60 + (progress * 40); // Width from 60vw to 100vw
-        mobileVideoHeight = 40 + (progress * 60); // Height from 40vh to 100vh
-        mobileVideoBottom = -50 + (progress * 50); // Position from -50vh (off-screen) to 0vh
         mobileTextOpacity = 0;
         mobileTextPosition = 100; // Text stays off-screen
         mobileStoryOpacity = 1;
     } else if (scrollY <= mobilePhase1 + mobilePhase2) {
         // Phase 2: Video stays full screen and sticky, no text visible
-        mobileVideoScale = 1;
-        mobileVideoWidth = 100;
-        mobileVideoHeight = 100;
-        mobileVideoBottom = 0;
         mobileTextOpacity = 0;
         mobileTextPosition = 100; // Text still off-screen
         mobileStoryOpacity = 1;
     } else if (scrollY <= mobilePhase1 + mobilePhase2 + mobilePhase3) {
         // Phase 3: Text box slides up from bottom with gradient overlay
         const progress = Math.min((scrollY - mobilePhase1 - mobilePhase2) / mobilePhase3, 1);
-        mobileVideoScale = 1;
-        mobileVideoWidth = 100;
-        mobileVideoHeight = 100;
-        mobileVideoBottom = 0;
         mobileTextOpacity = progress; // Text fades in as it slides up
         mobileTextPosition = 100 - (progress * 100); // Text slides from 100vh to 0vh
         mobileStoryOpacity = 1;
     } else if (scrollY <= mobilePhase1 + mobilePhase2 + mobilePhase3 + mobilePhase4) {
         // Phase 4: Text box stays visible and stable
-        mobileVideoScale = 1;
-        mobileVideoWidth = 100;
-        mobileVideoHeight = 100;
-        mobileVideoBottom = 0;
         mobileTextOpacity = 1; // Text box fully visible and stable
         mobileTextPosition = 0; // Text box at final position
         mobileStoryOpacity = 1;
     } else {
         // Phase 5: Fade out everything when Review section approaches
         const progress = Math.min((scrollY - mobilePhase1 - mobilePhase2 - mobilePhase3 - mobilePhase4) / mobilePhase5, 1);
-        mobileVideoScale = 1;
-        mobileVideoWidth = 100;
-        mobileVideoHeight = 100;
-        mobileVideoBottom = 0;
         mobileTextOpacity = 1 - progress; // Text fades out
         mobileTextPosition = 0;
         mobileStoryOpacity = 1 - progress; // Everything fades out
@@ -178,7 +157,7 @@ const Story = () => {
                             }}
                         >
                         <video
-                            src="/intro2.jpg"
+                            src="/Story.mp4"
                             autoPlay
                             loop
                             muted
@@ -282,7 +261,7 @@ const Story = () => {
                         borderRadius: scrollY <= phase1 ? '20px' : '0px'
                     }}>
                         <video
-                            src="/intro2.jpg"
+                            src="/Story.mp4"
                             autoPlay
                             loop
                             muted
