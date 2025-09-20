@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 const Story = () => {
     const [scrollY, setScrollY] = useState(0);
+    const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
     const storyRef = useRef(null);
 
     useEffect(() => {
@@ -21,6 +22,31 @@ const Story = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    // Lazy load video when Story section comes into view
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !shouldLoadVideo) {
+                    setShouldLoadVideo(true);
+                }
+            },
+            {
+                rootMargin: '100px', // Start loading 100px before section is visible
+                threshold: 0.1
+            }
+        );
+
+        if (storyRef.current) {
+            observer.observe(storyRef.current);
+        }
+
+        return () => {
+            if (storyRef.current) {
+                observer.unobserve(storyRef.current);
+            }
+        };
+    }, [shouldLoadVideo]);
 
     // Desktop animation phases
     const phase1 = 200; // Video grows from small to full screen
@@ -156,19 +182,25 @@ const Story = () => {
                                 opacity: mobileStoryOpacity
                             }}
                         >
-                        <video
-                            src="/Story.mp4"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover'
-                            }}
-                        />
+                        {shouldLoadVideo ? (
+                            <video
+                                src="/Story.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover'
+                                }}
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <div className="text-gray-500 text-sm font-afacad">Loading video...</div>
+                            </div>
+                        )}
                     </div>
                     )}
 
@@ -262,19 +294,25 @@ const Story = () => {
                         transition: 'all 0.3s ease-out',
                         borderRadius: scrollY <= phase1 ? '20px' : '0px'
                     }}>
-                        <video
-                            src="/Story.mp4"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover'
-                            }}
-                        />
+                        {shouldLoadVideo ? (
+                            <video
+                                src="/Story.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover'
+                                }}
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <div className="text-gray-500 text-sm font-afacad">Loading video...</div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Text content - appears during shrinking phase */}
