@@ -5,8 +5,10 @@ const Home = () => {
     const videos = ["/Home1.mp4", "/Home2.mp4", "/Home3.mp4"];
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const [showBoxes, setShowBoxes] = useState(false);
+    const [videosLoaded, setVideosLoaded] = useState(false);
     const videoRef = useRef(null);
     const boxTimerRef = useRef(null);
+    const preloadedVideos = useRef([]);
 
     const lineSpacingDesktop = 320;
     const lineSpacingTablet = 200;
@@ -26,13 +28,58 @@ const Home = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    // Preload all videos for faster switching
+    useEffect(() => {
+        const preloadVideos = async () => {
+            try {
+                const videoPromises = videos.map((src, index) => {
+                    return new Promise((resolve) => {
+                        const video = document.createElement('video');
+                        video.src = src;
+                        video.preload = 'metadata';
+                        video.muted = true;
+                        video.playsInline = true;
+                        
+                        video.addEventListener('loadedmetadata', () => {
+                            preloadedVideos.current[index] = video;
+                            resolve(video);
+                        });
+                        
+                        video.addEventListener('error', () => {
+                            console.warn(`Failed to preload video: ${src}`);
+                            resolve(null);
+                        });
+                        
+                        // Start preloading
+                        video.load();
+                    });
+                });
+                
+                await Promise.all(videoPromises);
+                setVideosLoaded(true);
+            } catch (error) {
+                console.warn('Video preloading failed:', error);
+                setVideosLoaded(true); // Continue anyway
+            }
+        };
+        
+        preloadVideos();
+    }, []);
+
     const boxTops = [0, 1, 2, 3, 4].map((i) => i * lineSpacing);
 
     const triggerBoxes = () => {
         setShowBoxes(true);
         boxTimerRef.current = setTimeout(() => {
             setShowBoxes(false);
-            setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+            // Preload next video before switching
+            const nextIndex = (currentVideoIndex + 1) % videos.length;
+            const nextVideo = preloadedVideos.current[nextIndex];
+            if (nextVideo) {
+                nextVideo.currentTime = 0;
+                nextVideo.load();
+            }
+            setCurrentVideoIndex(nextIndex);
         }, 2000);
     };
 
@@ -52,6 +99,15 @@ const Home = () => {
 
     return (
         <section className="fixed inset-0 w-full h-screen overflow-hidden m-0 p-0" style={{ height: '100vh', width: '100vw' }}>
+            {/* Loading indicator */}
+            {!videosLoaded && (
+                <div className="absolute inset-0 bg-black flex items-center justify-center z-50">
+                    <div className="text-[#FBF9D1] text-center">
+                        <div className="animate-spin w-8 h-8 border-2 border-[#FBF9D1] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p className="font-stint text-sm">Loading Experience...</p>
+                    </div>
+                </div>
+            )}
             {/* Background Video */}
             <video
                 ref={videoRef}
@@ -61,6 +117,8 @@ const Home = () => {
                 autoPlay
                 muted
                 playsInline
+                preload="metadata"
+                loading="eager"
             />
 
             {/* Fixed Horizontal Lines */}
