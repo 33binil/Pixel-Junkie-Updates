@@ -1,0 +1,37 @@
+services:
+  # Backend API Service
+  - type: web
+    name: pixeljunkie-backend
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # Add these environment variables in Render Dashboard
+      # - key: MONGODB_URI
+      #   sync: false  # Set manually in dashboard
+      # - key: EMAIL_USER
+      #   sync: false  # Set manually in dashboard
+      # - key: EMAIL_PASS
+      #   sync: false  # Set manually in dashboard
+      # - key: ADMIN_EMAIL
+      #   sync: false  # Set manually in dashboard
+      # - key: FRONTEND_URL
+      #   sync: false  # Set manually in dashboard
+
+  # Frontend Static Site
+  - type: web
+    name: pixeljunkie-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    pullRequestPreviewsEnabled: false
+    envVars:
+      # Add these environment variables in Render Dashboard
+      # - key: VITE_API_URL
+      #   sync: false  # Set to backend service URL

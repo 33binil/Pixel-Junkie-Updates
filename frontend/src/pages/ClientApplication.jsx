@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Bottom from './Bottom';
+import { submitClientApplication } from '../utils/api';
 
 const ClientApplication = ({ onClose }) => {
     const [formData, setFormData] = useState({
@@ -38,6 +39,8 @@ const ClientApplication = ({ onClose }) => {
         businessName: '',
         email: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -78,8 +81,11 @@ const ClientApplication = ({ onClose }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Reset status
+        setSubmitStatus(null);
         
         // Check required fields
         const errors = {
@@ -103,9 +109,53 @@ const ClientApplication = ({ onClose }) => {
             return;
         }
         
-        console.log('Form submitted:', formData);
-        // Handle form submission here
-        alert('Application submitted successfully! ✅');
+        setIsSubmitting(true);
+        
+        try {
+            console.log('Submitting application:', formData);
+            const response = await submitClientApplication(formData);
+            
+            if (response.success) {
+                setSubmitStatus('success');
+                console.log('Application submitted successfully:', response);
+                
+                // Reset form after successful submission
+                setTimeout(() => {
+                    setFormData({
+                        fullName: '',
+                        businessName: '',
+                        email: '',
+                        businessStory: '',
+                        excitement: '',
+                        services: {
+                            branding: false,
+                            consulting: false,
+                            uiux: false,
+                            webdev: false,
+                            appdev: false,
+                            marketing: false,
+                            video: false,
+                            motion: false
+                        },
+                        collateralDescription: '',
+                        budget: '',
+                        launchDate: '',
+                        businessDuration: '',
+                        additionalInfo: '',
+                        contactInfo: ''
+                    });
+                    setSubmitStatus(null);
+                }, 5000); // Reset after 5 seconds
+            } else {
+                setSubmitStatus('error');
+                console.error('Application submission failed:', response);
+            }
+        } catch (error) {
+            setSubmitStatus('error');
+            console.error('Application submission error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
     
     // Check if the first 3 required fields are filled
@@ -357,13 +407,42 @@ const ClientApplication = ({ onClose }) => {
                                 />
                             </div>
 
+                            {/* Status Messages */}
+                            {submitStatus === 'success' && (
+                                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                                    <p className="font-medium">✅ Application submitted successfully!</p>
+                                    <p className="text-sm">Thank you for your submission. We'll review your application and get back to you within 24-48 hours. Please check your email for a confirmation.</p>
+                                </div>
+                            )}
+                            
+                            {submitStatus === 'error' && (
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                                    <p className="font-medium">❌ Submission failed</p>
+                                    <p className="text-sm">There was an error submitting your application. Please check your internet connection and try again.</p>
+                                </div>
+                            )}
+
                             {/* Submit Button */}
                             <div className="pt-6">
                                 <button
                                     type="submit"
-                                    className="bg-[#3D3C27] hover:bg-[#4D4C37] text-white px-8 py-3 rounded-sm transition-colors duration-300 font-medium"
+                                    disabled={isSubmitting || submitStatus === 'success'}
+                                    className={`px-8 py-3 rounded-sm transition-colors duration-300 font-medium ${
+                                        isSubmitting || submitStatus === 'success'
+                                            ? 'bg-gray-400 cursor-not-allowed text-gray-700'
+                                            : 'bg-[#3D3C27] hover:bg-[#4D4C37] text-white'
+                                    }`}
                                 >
-                                    Submit ✅
+                                    {isSubmitting ? (
+                                        <>
+                                            <span className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                                            Submitting...
+                                        </>
+                                    ) : submitStatus === 'success' ? (
+                                        'Submitted ✅'
+                                    ) : (
+                                        'Submit Application →'
+                                    )}
                                 </button>
                             </div>
                         </form>
