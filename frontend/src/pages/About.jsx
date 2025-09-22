@@ -1,21 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 
 const About = () => {
-    const [isMobile, setIsMobile] = useState(false);
     const [screenWidth, setScreenWidth] = useState(0);
     const [isSticky, setIsSticky] = useState(false);
     const aboutRef = useRef(null);
 
     useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 1024);
+        const checkScreenWidth = () => {
             setScreenWidth(window.innerWidth);
         };
 
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
+        checkScreenWidth();
+        window.addEventListener('resize', checkScreenWidth);
 
-        return () => window.removeEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkScreenWidth);
     }, []);
 
     useEffect(() => {

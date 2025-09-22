@@ -1,7 +1,8 @@
 /* src/fonts.css */
 @font-face {
     font-family: 'Vogca';
-    src: url('/fonts/vogca.ttf') format('truetype');
+    src: url('./assets/fonts/vogca.ttf') format('truetype'),
+         url('./assets/fonts/vogca.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -9,7 +10,8 @@
 
 @font-face {
     font-family: 'Insomatte';
-    src: url('/fonts/Insomatte-Regular-BF66a356c463e1b.ttf') format('truetype');
+    src: url('./assets/fonts/Insomatte-Regular-BF66a356c463e1b.ttf') format('truetype'),
+         url('./assets/fonts/Insomatte-Regular-BF66a356c463e1b.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -17,7 +19,8 @@
 
 @font-face {
     font-family: 'mogilte';
-    src: url('/fonts/Mogilte.otf') format('opentype');
+    src: url('./assets/fonts/Mogilte.otf') format('opentype'),
+         url('./assets/fonts/Mogilte.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -25,7 +28,8 @@
 
 @font-face {
     font-family: 'Pethra';
-    src: url('/fonts/Pethra.otf') format('opentype');
+    src: url('./assets/fonts/Pethra.otf') format('opentype'),
+         url('./assets/fonts/Pethra.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

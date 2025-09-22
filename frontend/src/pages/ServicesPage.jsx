@@ -7,42 +7,50 @@ const ServicesPage = () => {
         {
             title: "Branding & Identity",
             description: "We create powerful brand identities that go beyond logos, shaping visuals, voice, and strategy to help your business stand out and connect with your audience.",
-            position: "right"
+            position: "right",
+            image: "branding.jpg"
         },
         {
             title: "Business Consulting & Scaling Solutions", 
             description: "We guide businesses from idea to growth, offering strategic insights, process optimization, and scalable solutions that help companies launch, adapt, and expand successfully.",
-            position: "left"
+            position: "left",
+            image: "service1.jpg"
         },
         {
             title: "UI UX Designing",
             description: "We design intuitive, user-friendly, and visually engaging digital experiences that enhance usability, boost engagement, and turn visitors into loyal customers.",
-            position: "right"
+            position: "right",
+            image: "uiux.jpg"
         },
         {
             title: "Web Development",
             description: "We build fast, secure, and scalable websites tailored to your business needs, combining modern technology with seamless functionality to deliver powerful online experiences.",
-            position: "left"
+            position: "left",
+            image: "web.jpg"
         },
         {
             title: "App Development", 
             description: "We create high-performance, user-centric mobile and web applications that combine sleek design with powerful functionality to drive engagement and business growth.",
-            position: "right"
+            position: "right",
+            image: "app.jpg"
         },
         {
             title: "Digital Marketing & Strategy",
             description: "We craft data-driven marketing strategies that boost your online presence and drive measurable growth through SEO, social media, and targeted campaigns.",
-            position: "left"
+            position: "left",
+            image: "marketing.jpg"
         },
         {
             title: "Video Production",
             description: "We produce high-quality videos and motion graphics that tell your brand's story, engage audiences, and create lasting impact across digital platforms.",
-            position: "right"
+            position: "right",
+            image: "editing.jpg"
         },
         {
             title: "Motion Graphics",
             description: "We design dynamic animations that bring ideas to life, simplify complex concepts, and captivate audiences with visually striking storytelling.",
-            position: "left"
+            position: "left",
+            image: "motion graphics.jpg"
         }
     ];
 
@@ -66,12 +74,20 @@ const ServicesPage = () => {
                             {/* Image Box */}
                             <div className="w-full lg:w-auto">
                                 {/* Mobile & Tablet: Responsive width and height */}
-                                <div className="bg-[#D4C4B0] rounded-2xl flex items-center justify-center border border-gray-300 shadow-sm mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg h-48 sm:h-56 md:h-64 lg:hidden">
-                                    <span className="text-gray-600 text-lg sm:text-xl font-afacad">Image Box</span>
+                                <div className="rounded-2xl overflow-hidden border border-gray-300 shadow-sm mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg h-48 sm:h-56 md:h-64 lg:hidden">
+                                    <img 
+                                        src={service.image} 
+                                        alt={service.title}
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
-                                {/* Desktop: Fixed 660px x 230px */}
-                                <div className="bg-[#D4C4B0] rounded-2xl flex items-center justify-center border border-gray-300 shadow-sm mx-auto hidden lg:block" style={{ width: '700px', height: '300px' }}>
-                                    <span className="text-gray-600 text-xl font-afacad">Image Box</span>
+                                {/* Desktop: Fixed 700px x 300px */}
+                                <div className="rounded-2xl overflow-hidden border border-gray-300 shadow-sm mx-auto hidden lg:block" style={{ width: '700px', height: '300px' }}>
+                                    <img 
+                                        src={service.image} 
+                                        alt={service.title}
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
                             </div>
                             

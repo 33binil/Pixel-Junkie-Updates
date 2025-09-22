@@ -1,11 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Work = () => {
-    const handleClick = () => {
-        console.log("OUR WORKS button clicked");
-        // You can trigger scroll, modal, or route here
-    };
-
     return (
         <div className="relative w-full bg-[#F5F5ED] overflow-hidden" style={{ zIndex: 10 }}>
             {/* Desktop View - Keep original unchanged */}
@@ -16,16 +12,22 @@ const Work = () => {
                 </div>
 
                 {/* Top-right button */}
-                <button
-                    onClick={handleClick}
+                <Link
+                    to="/work"
                     className="absolute top-8 right-12 text-[20px] font-bold text-black font-abhaya underline-offset-4 hover:underline cursor-pointer transition-all duration-200"
                 >
                     OUR WORKS
-                </button>
+                </Link>
 
-                {/* Centered white image box with downward shift */}
+                {/* Centered image box with downward shift */}
                 <div className="w-screen h-screen bg-[#F5F5ED] flex items-center justify-center">
-                    <div className="w-[1574px] h-[910px] bg-white shadow-lg mt-[60px]" />
+                    <div className="w-[1574px] h-[910px] shadow-lg mt-[60px] overflow-hidden rounded-lg">
+                        <img 
+                            src="/new,work.jpg"
+                            alt="Our Latest Work"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -36,17 +38,23 @@ const Work = () => {
                     <div className="text-lg sm:text-xl font-semibold text-black font-architect">
                         Our Latest Work (On Progress..)
                     </div>
-                    <button
-                        onClick={handleClick}
+                    <Link
+                        to="/work"
                         className="text-base sm:text-lg font-bold text-black font-abhaya underline-offset-4 hover:underline cursor-pointer transition-all duration-200"
                     >
                         OUR WORKS
-                    </button>
+                    </Link>
                 </div>
 
-                {/* Mobile centered white box */}
+                {/* Mobile centered image box */}
                 <div className="w-full flex items-center justify-center py-8">
-                    <div className="w-full max-w-sm sm:max-w-md bg-white shadow-lg rounded-lg" style={{ aspectRatio: '4/3', minHeight: '570px' }} />
+                    <div className="w-full max-w-sm sm:max-w-md shadow-lg rounded-lg overflow-hidden" style={{ aspectRatio: '4/3', minHeight: '570px' }}>
+                        <img 
+                            src="/network,m.jpg"
+                            alt="Our Latest Work"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

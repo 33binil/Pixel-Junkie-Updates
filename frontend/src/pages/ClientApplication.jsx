@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Bottom from './Bottom';
 import { submitClientApplication } from '../utils/api';
 
-const ClientApplication = ({ onClose }) => {
+const ClientApplication = () => {
     const [formData, setFormData] = useState({
         fullName: '',
         businessName: '',
@@ -121,7 +121,8 @@ const ClientApplication = ({ onClose }) => {
                 
                 // Reset form after successful submission
                 setTimeout(() => {
-                    setFormData({
+                    setFormData(prevData => ({
+                        ...prevData,
                         fullName: '',
                         businessName: '',
                         email: '',
@@ -143,7 +144,7 @@ const ClientApplication = ({ onClose }) => {
                         businessDuration: '',
                         additionalInfo: '',
                         contactInfo: ''
-                    });
+                    }));
                     setSubmitStatus(null);
                 }, 5000); // Reset after 5 seconds
             } else {
@@ -158,8 +159,6 @@ const ClientApplication = ({ onClose }) => {
         }
     };
     
-    // Check if the first 3 required fields are filled
-    const isFormValid = formData.fullName.trim() && formData.businessName.trim() && formData.email.trim() && validateEmail(formData.email);
 
     return (
         <div className="fixed inset-0 bg-[#E8E3D8] z-[10000] overflow-auto">

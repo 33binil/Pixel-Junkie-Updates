@@ -6,6 +6,15 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        }
+      },
+      animation: {
+        'scroll': 'scroll 30s linear infinite'
+      },
       fontFamily: {
         vogca: ['Vogca', 'sans-serif'],
         stint: ["Stint Ultra Expanded", "cursive"],

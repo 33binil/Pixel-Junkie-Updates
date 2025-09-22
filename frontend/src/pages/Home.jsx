@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 
 const Home = () => {
     const videos = ["/Home1.mp4", "/Home2.mp4", "/Home3.mp4"];
@@ -29,13 +29,13 @@ const Home = () => {
 
     const boxTops = [0, 1, 2, 3, 4].map((i) => i * lineSpacing);
 
-    const triggerBoxes = () => {
+    const triggerBoxes = useCallback(() => {
         setShowBoxes(true);
         boxTimerRef.current = setTimeout(() => {
             setShowBoxes(false);
             setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
         }, 2000);
-    };
+    }, [videos.length]);
 
     useEffect(() => {
         const v = videoRef.current;
@@ -49,7 +49,7 @@ const Home = () => {
             v.removeEventListener("ended", handleEnded);
             if (boxTimerRef.current) clearTimeout(boxTimerRef.current);
         };
-    }, [currentVideoIndex, lineSpacing]);
+    }, [currentVideoIndex, lineSpacing, triggerBoxes]);
 
     return (
         <section className="fixed inset-0 w-full h-screen overflow-hidden m-0 p-0" style={{ height: '100vh', width: '100vw' }}>
@@ -80,7 +80,7 @@ const Home = () => {
             <div className="absolute top-0 bottom-0 left-[40px] md:left-[70px] sm:left-16 xs:left-8 w-[1px] bg-[#575757] z-20" />
 
             {/* Boxes */}
-            <div className="absolute inset-0 z-10 -top-[160px] md:-top-60 pointer-events-none">
+            <div className="absolute inset-0 z-10 -top-[160px] md:-top-60">
                 {boxTops.map((top, index) => (
                     <div
                         key={index}
@@ -112,33 +112,24 @@ const Home = () => {
                     </h1>
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 md:mb-32 gap-4 md:gap-0">
-                    <div className="font-stint text-[12px] md:text-lg text-[#FBF9D1] space-y-4 md:ml-[100px] sm:ml-[40px] xs:ml-4 relative text-center md:text-left">
-                        <p>
-                            Where ideas evolve
-                            <br />
-                            into businesses.
-                        </p>
-                        <p>
-                            Designing brands,
-                            <br />
-                            building futures.
-                        </p>
-                        <p>
-                            Turning imagination
-                            <br />
-                            into scalable reality.
-                        </p>
-                    </div>
-
-                    <div className="flex gap-4 mr-0 md:mr-[50px] sm:mr-4 relative">
-                        <a
-                            href="#works"
-                            className="font-stint inline-block bg-black/80 text-[#FBF9D1] px-4 py-2 sm:px-5 sm:py-3 md:px-6 md:py-4 rounded-md text-xs sm:text-sm md:text-base lg:text-lg hover:bg-black transition-colors whitespace-nowrap"
-                        >
-                            Our Latest Works
-                        </a>
-                    </div>
+                    <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 md:mb-32 gap-4 md:gap-0">
+                        <div className="font-stint text-[12px] md:text-lg text-[#FBF9D1] space-y-4 md:ml-[100px] sm:ml-[40px] xs:ml-4 relative text-center md:text-left">
+                            <p>
+                                Where ideas evolve
+                                <br />
+                                into businesses.
+                            </p>
+                            <p>
+                                Designing brands,
+                                <br />
+                                building futures.
+                            </p>
+                            <p>
+                                Turning imagination
+                                <br />
+                                into scalable reality.
+                            </p>
+                        </div>
                 </div>
             </div>
         </section>

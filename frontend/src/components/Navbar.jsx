@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Navbar = ({ onClose, currentPage }) => {
+const Navbar = ({ currentPage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -24,6 +24,9 @@ const Navbar = ({ onClose, currentPage }) => {
         } else if (item === 'Client Application') {
             // Redirect to Client Application page with refresh
             window.location.href = '/client-application';
+        } else if (item === 'Contact') {
+            // Redirect to Contact page with refresh
+            window.location.href = '/contact';
         }
         // Add other navigation logic here later
     };
@@ -67,7 +70,7 @@ const Navbar = ({ onClose, currentPage }) => {
                     </button>
                     <button
                         onClick={() => handleMenuItemClick('Work')}
-                        className={`w-full text-left px-4 py-3 text-md font-afacad text-gray-800 hover:bg-gray-100 rounded transition-colors duration-200 ${currentPage === 'work' ? 'underline' : ''}`}
+                        className={`w-full text-left px-4 py-3 text-md font-afacad text-gray-800 hover:bg-gray-100 rounded transition-colors duration-200 ${currentPage === 'works' ? 'underline' : ''}`}
                     >
                         Work
                     </button>
@@ -82,6 +85,12 @@ const Navbar = ({ onClose, currentPage }) => {
                         className={`w-full text-left px-4 py-3 text-md font-afacad text-gray-800 hover:bg-gray-100 rounded transition-colors duration-200 ${currentPage === 'client-application' ? 'underline' : ''}`}
                     >
                         Client Application
+                    </button>
+                    <button
+                        onClick={() => handleMenuItemClick('Contact')}
+                        className={`w-full text-left px-4 py-3 text-md font-afacad text-gray-800 hover:bg-gray-100 rounded transition-colors duration-200 ${currentPage === 'contact' ? 'underline' : ''}`}
+                    >
+                        Contact
                     </button>
                 </div>
             </div>
