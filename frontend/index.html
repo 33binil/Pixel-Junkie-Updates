@@ -16,6 +16,18 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pixel Junkie Creative Studio</title>
+  
+  <!-- SPA Redirect Handling Script -->
+  <script>
+    // Handle redirects from 404.html for GitHub Pages
+    (function() {
+      const redirect = new URLSearchParams(window.location.search).get('redirect');
+      if (redirect) {
+        // Remove the redirect query parameter and navigate to the intended route
+        history.replaceState(null, null, decodeURIComponent(redirect));
+      }
+    })();
+  </script>
 </head>
 <body>
 <div id="root"></div>
