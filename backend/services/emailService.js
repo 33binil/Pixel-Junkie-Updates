@@ -2,11 +2,17 @@ import nodemailer from 'nodemailer';
 
 // Create email transporter
 const createTransporter = () => {
+  // Clean up environment values to avoid accidental spaces/groups from copy-paste
+  const emailUser = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : undefined;
+  const emailPass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, '') : undefined; // remove spaces in app-passwords
+
   return nodemailer.createTransport({
-    service: 'gmail', // You can change this to other email services
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use TLS
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS, // App password for Gmail
+      user: emailUser,
+      pass: emailPass
     },
     tls: {
       rejectUnauthorized: false
