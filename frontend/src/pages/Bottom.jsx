@@ -1,138 +1,117 @@
-import React from 'react';
+import React from "react";
 import { useNavigate } from 'react-router-dom';
+import Lottie from "lottie-react";
+import EmailAnimation from "../assets/lottie/Email.json";
+import { Instagram, MessageCircleCode, Mail, MapPin, Phone, AtSign } from "lucide-react";
+
 
 const Bottom = () => {
     const navigate = useNavigate();
-
-    const handleButtonClick = (buttonName) => {
-        console.log(`${buttonName} button clicked`);
-        // Handle navigation
-        if (buttonName === 'PROJECTS') {
-            navigate('/work');
-        } else if (buttonName === 'CLIENT APPLICATION') {
-            navigate('/client-application');
-        } else if (buttonName === 'SERVICES') {
-            navigate('/services');
-        } else if (buttonName === 'CONTACT US') {
-            navigate('/contact');
-        } else if (buttonName === 'TERMS OF USE') {
-            navigate('/terms');
-        } else if (buttonName === 'PRIVACY NOTICE') {
-            navigate('/privacy');
-        }
-        // You can add other navigation logic here
-    };
-
     return (
-        <div className="w-full bg-[#2D2C1A] px-4 sm:px-6 pt-12 sm:pt-20 relative" style={{ zIndex: 30, marginBottom: 0, paddingBottom: 0 }}>
-            <div className="max-w-7xl mx-auto" style={{ marginBottom: 0, paddingBottom: 0 }}>
-
-                {/* Image Boxes Section */}
-                <div className="flex justify-center sm:justify-start mb-20 sm:mb-40">
-                    <div className="grid grid-cols-2 sm:flex gap-4 sm:gap-10">
-                        {/* Image Box 1 */}
-                        <div className="rounded-lg overflow-hidden w-20 h-20 sm:w-36 md:w-40 lg:w-44 xl:w-[150px] sm:h-36 md:h-40 lg:h-44 xl:h-[150px]">
-                            <img 
-                                src="/Bottom1.jpg"
-                                alt="Bottom Image 1"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* Image Box 2 */}
-                        <div className="rounded-lg overflow-hidden w-20 h-20 sm:w-36 md:w-40 lg:w-44 xl:w-[150px] sm:h-36 md:h-40 lg:h-44 xl:h-[150px]">
-                            <img 
-                                src="/Bottom2.jpg"
-                                alt="Bottom Image 2"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* Image Box 3 */}
-                        <div className="rounded-lg overflow-hidden w-20 h-20 sm:w-36 md:w-40 lg:w-44 xl:w-[150px] sm:h-36 md:h-40 lg:h-44 xl:h-[150px]">
-                            <img 
-                                src="/bottom3.jpg"
-                                alt="Bottom Image 3"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* Image Box 4 */}
-                        <div className="rounded-lg overflow-hidden w-20 h-20 sm:w-36 md:w-40 lg:w-44 xl:w-[150px] sm:h-36 md:h-40 lg:h-44 xl:h-[150px]">
-                            <img 
-                                src="/Bottom4.jpg"
-                                alt="Bottom Image 4"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    </div>
+        <div className="bg-black text-white h-screen flex flex-col overflow-y-auto">
+            {/* --- Top Section: Lottie + CTA --- */}
+            <div className="w-full flex flex-col-reverse sm:flex-row items-center justify-between px-6 sm:px-20 py-20 md:py-7 top-10 md:top-0 relative gap-10 flex-1">
+                {/* Left: Lottie Animation */}
+                <div className="w-full sm:w-1/2 flex justify-center">
+                    <Lottie animationData={EmailAnimation} loop={true} className="w-[300px] sm:w-[600px]" />
                 </div>
 
-                {/* Company Title */}
-                <div className="text-center mb-16 md:mb-28 sm:mb-32">
-                    <h1 className="text-white font-bold font-vogca text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[70px] leading-tight">
-                        Pixel Junkie Creative Studio
-                    </h1>
-                </div>
-
-                {/* Navigation Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 lg:gap-8 mb-14 md:mb-16 font-lexend px-2">
-                    <button
-                        onClick={() => handleButtonClick('PROJECTS')}
-                        className="text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-base lg:text-lg font-medium py-2 sm:py-0"
-                    >
-                        PROJECTS
+                {/* Right: Text + Button */}
+                <div className="w-full sm:w-1/2 flex flex-col justify-center items-center sm:items-start text-center sm:text-left gap-6">
+                    <h2 className="text-3xl sm:text-4xl font-bold">
+                        Got talent, passion, or big ideas? Let’s connect!
+                    </h2>
+                    <p className="text-gray-300 text-lg">
+                        Apply now and become part of something exciting.
+                    </p>
+                    <button onClick={() => navigate('/client-application')} className="bg-[#2ab4bc] hover:bg-white text-black font-semibold py-3 px-6 rounded-md transition">
+                        Application Form
                     </button>
-
-                    <button
-                        onClick={() => handleButtonClick('CLIENT APPLICATION')}
-                        className="text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-base lg:text-lg font-medium py-2 sm:py-0"
-                    >
-                        CLIENT APPLICATION
-                    </button>
-
-                    <button
-                        onClick={() => handleButtonClick('SERVICES')}
-                        className="text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-base lg:text-lg font-medium py-2 sm:py-0"
-                    >
-                        SERVICES
-                    </button>
-
-                    <button
-                        onClick={() => handleButtonClick('CONTACT US')}
-                        className="text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-base lg:text-lg font-medium py-2 sm:py-0"
-                    >
-                        CONTACT US
-                    </button>
-
-                    <button
-                        onClick={() => handleButtonClick('TERMS OF USE')}
-                        className="text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-base lg:text-lg font-medium py-2 sm:py-0"
-                    >
-                        TERMS OF USE
-                    </button>
-
-                    <button
-                        onClick={() => handleButtonClick('PRIVACY NOTICE')}
-                        className="text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-base lg:text-lg font-medium py-2 sm:py-0"
-                    >
-                        PRIVACY NOTICE
-                    </button>
-                </div>
-
-                {/* Copyright Section */}
-                <div className="flex items-center justify-center text-gray-400 ">
-                    {/* Company Icon */}
-                    <div className="w-3 md:w-4 h-3 md:h-4 mb-2 md:mb-1 border-2 border-gray-400 rounded-full flex items-center justify-center mr-2 sm:mr-3 text-[6px] md:text-[8px] font-bold">
-                        C
-                    </div>
-
-                    {/* Copyright Text */}
-                    <span className="text-[10px] sm:text-[14px] mb-2 md:mb-1 text-center">
-                        2025 Pixel Junkie Creative Studio. All Rights Reserved.
-                    </span>
                 </div>
             </div>
+
+            {/* --- Bottom Footer Section --- */}
+            <section className="w-full  bg-black text-white flex flex-col justify-center items-center font-sans px-6 sm:px-20 py-12 mt-auto">
+                <div className="w-full max-w-8xl flex flex-col sm:flex-row justify-between items-center sm:items-center gap-16 md:gap-12">
+                    {/* --- Left Section --- */}
+                    <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                        <img
+                            src="/logo.png"
+                            alt="Pixel Junkie Logo"
+                            className="w-[135px] h-[135px] mb-4"
+                        />
+                        <p className="text-[14px] md:text-[18px] text-gray-300 w-[255px] mb-4">
+                            We bring ideas to life with design, technology, and creativity.
+                        </p>
+                        <div className="flex gap-[20px] justify-center sm:justify-start">
+                            <a href="#" className="hover:text-[#2ab4bc] transition-colors">
+                                <Instagram size={25} className="sm:size-[30px]"/>
+                            </a>
+                            <button onClick={() => window.open('https://wa.me/9189213118291?text=Hey Pixel Junkie Team! I just visited your website and loved what I saw. I\'d love to discuss how you can help with my branding, design, or digital marketing needs. Let\'s chat!', '_blank')} className="hover:text-[#2ab4bc] transition-colors bg-transparent border-none cursor-pointer">
+                                <MessageCircleCode size={25} className="sm:size-[30px]"/>
+                            </button>
+                            <button onClick={() => window.open('mailto:business@pixeljunkiestudio.in?subject=Inquiry from Pixel Junkie Creative Studio Website&body=Hi Pixel Junkie Team,%0A%0AI just came across your website and was really impressed! I\'d love to learn more about your services and how you can help with my branding, design, or digital marketing needs.%0A%0ALooking forward to your response!%0A%0ABest,%0A[Your Name]%0A[Your Contact Information] (Optional)', '_self')} className="hover:text-[#2ab4bc] transition-colors bg-transparent border-none cursor-pointer">
+                                <Mail size={25} className="sm:size-[30px]"/>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* --- Middle Section --- */}
+                    <div className="flex flex-col items-center sm:items-start">
+                        <h2 className="text-[24px] font-semibold mb-4">Get in Touch</h2>
+                        <div className="flex flex-col gap-3 text-[14px] text-gray-300">
+                            <div className="flex items-center gap-3">
+                                <MapPin size={14} className="sm:size-[18px]"/>
+                                <span>Pixel Junkie Creative Studio</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <Phone size={14} className="sm:size-[18px]"/>
+                                <span>+91 89213 118292</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <AtSign size={14} className="sm:size-[18px]"/>
+                                <span>pixeljunkiestudio@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* --- Right Section (Links) --- */}
+                    <div className="grid grid-cols-3 gap-10 text-center sm:text-left">
+                        <div>
+                            <h3 className="text-[16px] md:text-[24px] font-semibold border-b border-gray-500 pb-1 mb-4 md:mb-2">Company</h3>
+                            <ul className="flex flex-col md:gap-3 gap-3 text-[12px] md:text-[14px] text-gray-300">
+                                <li><button onClick={() => window.scrollTo({ top: 4 * window.innerHeight, behavior: 'smooth' })} className="hover:text-white transition bg-transparent border-none cursor-pointer">About Us</button></li>
+                                <li><button onClick={() => window.scrollTo({ top: 2 * window.innerHeight, behavior: 'smooth' })} className="hover:text-white transition bg-transparent border-none cursor-pointer">Services</button></li>
+                                <li><button onClick={() => window.scrollTo({ top: 3 * window.innerHeight, behavior: 'smooth' })} className="hover:text-white transition bg-transparent border-none cursor-pointer">Projects</button></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="text-[16px] md:text-[24px] font-semibold border-b border-gray-500 pb-1 mb-4 md:mb-2">Quick Links</h3>
+                            <ul className="flex flex-col gap-3 md:gap-3 text-[12px] md:text-[14px] text-gray-300">
+                                <li><a href="#" className="hover:text-white transition">Blog</a></li>
+                                <li><a href="#" className="hover:text-white transition">Support</a></li>
+                                <li><a href="#" className="hover:text-white transition">FAQ</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="text-[16px] md:text-[24px] font-semibold border-b border-gray-500 pb-1 mb-4 md:mb-2">Operating Time</h3>
+                            <button onClick={() => navigate('/client-application')} className="text-[12px] md:text-[14px] text-gray-300 mt-2 hover:text-white transition bg-transparent border-none cursor-pointer">24x7 Services through online</button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* --- Bottom Bar --- */}
+                <div className="w-full border-t border-gray-700 mt-10 pt-4 flex flex-col sm:flex-row justify-between items-center text-gray-400 text-[10px] md:text-[13px]">
+                    <div className="flex items-center gap-2">
+                        <img src="/c-icon.png" alt="c icon" className="w-3 md:w-3.5 h-3 md:h-3.5" />
+                        <span>2025 Pixel Junkie Creative Studio. All Rights Reserved.</span>
+                    </div>
+                    <div className="flex gap-6 mt-4 sm:mt-0">
+                        <button onClick={() => navigate('/privacy')} className="hover:text-white transition">Privacy Policy</button>
+                        <button onClick={() => navigate('/terms')} className="hover:text-white transition">Terms & Services</button>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };

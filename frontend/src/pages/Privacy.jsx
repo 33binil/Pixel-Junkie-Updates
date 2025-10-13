@@ -1,10 +1,9 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import Bottom from './Bottom';
 
 const Privacy = () => {
     return (
-        <div className="w-full bg-[#E8E3D8] min-h-screen">
+        <div className="fixed inset-0 bg-[#E8E3D8] overflow-auto">
             {/* Navbar */}
             <Navbar currentPage="privacy" />
             
@@ -272,8 +271,7 @@ const Privacy = () => {
                 </div>
             </div>
 
-            {/* Bottom Component */}
-            <Bottom />
+
         </div>
     );
 };

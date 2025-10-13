@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/alegreya": "^5.2.8",
+    "@iconify/react": "^6.0.2",
     "framer-motion": "^12.23.15",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.545.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1"

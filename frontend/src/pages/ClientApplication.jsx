@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import Bottom from './Bottom';
 import { submitClientApplication } from '../utils/api';
 
 const ClientApplication = () => {
@@ -169,7 +168,7 @@ const ClientApplication = () => {
                 {/* Image Section - Top on mobile, Left on desktop */}
                 <div className="w-full lg:w-[500px] xl:w-[600px] h-64 lg:h-auto flex-shrink-0">
                     <img 
-                        src="/Application.jpg" 
+                        src="/Application.webp"
                         alt="Client Application" 
                         className="w-full h-full object-cover"
                     />
@@ -178,8 +177,8 @@ const ClientApplication = () => {
                 {/* Application Form Section - Bottom on mobile, Right on desktop */}
                 <div className="w-full lg:flex-1 p-6 sm:p-8 lg:p-12 xl:p-16">
                     <div className="max-w-3xl lg:max-w-none xl:max-w-4xl mx-auto">
-                        <h2 className="text-2xl text-center md:text-[40px] font-bold font-architect text-gray-800 mb-4 tracking-wide">CLIENT APPLICATION</h2>
-                        <p className="text-gray-700 text-xl font-semibold text-center font-architect mb-12 leading-relaxed">
+                        <h2 className="text-2xl text-center md:text-[40px] font-bold font-architects-daughter text-gray-800 mb-4 tracking-wide">CLIENT APPLICATION</h2>
+                        <p className="text-gray-700 text-xl font-semibold text-center font-architects-daughter mb-12 leading-relaxed">
                             Brilliant work starts with good questions. Here's a quick few from us to get the conversation started.
                         </p>
 
@@ -448,9 +447,7 @@ const ClientApplication = () => {
                     </div>
                 </div>
             </div>
-            
-            {/* Bottom Section */}
-            <Bottom />
+
         </div>
     );
 };

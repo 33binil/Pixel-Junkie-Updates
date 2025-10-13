@@ -4,29 +4,25 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'font-dela',
+    'font-alata',
+    'font-big-shoulders',
+    'font-alumni-sans',
+    'font-afacad',
+    'font-architects-daughter',
+    'font-alegreya', // ✅ added
+  ],
   theme: {
     extend: {
-      keyframes: {
-        scroll: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' }
-        }
-      },
-      animation: {
-        'scroll': 'scroll 30s linear infinite'
-      },
       fontFamily: {
-        vogca: ['Vogca', 'sans-serif'],
-        stint: ["Stint Ultra Expanded", "cursive"],
-        insomatte: ["Insomatte"],
-        mogilte: ["mogilte"],
-        architect: ['"Architects Daughter"', 'cursive'],
-        arbutus: ['"Arbutus"', 'serif'],
-        pethra: ['Pethra'],
-        abhaya: ['"Abhaya Libre"', 'serif'],
-        lexend: ['"Lexend Giga"', 'sans-serif'],
-        alegreya: ['"Alegreya SC"', 'serif'],
-        afacad: ["Afacad", "sans-serif"],
+        'dela': ['Dela Gothic One', 'sans-serif'],
+        'alata': ['Alata', 'sans-serif'],
+        'big-shoulders': ['Big Shoulders Display', 'sans-serif'],
+        'alumni-sans': ['Alumni Sans', 'sans-serif'],
+        'afacad': ['Afacad', 'sans-serif'],
+        'architects-daughter': ['Architects Daughter', 'cursive'],
+        'alegreya': ['Alegreya', 'serif'], // ✅ added
       },
     },
   },

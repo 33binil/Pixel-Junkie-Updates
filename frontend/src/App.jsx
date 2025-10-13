@@ -1,127 +1,177 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Loading from './pages/Loading';
-import Home from './pages/Home';
-import About from './pages/About';
-import Intro from './pages/Intro';
-import Services from './pages/Services';
-import ServicesPage from './pages/ServicesPage';
-import Work from './pages/Work';
-import Works from './pages/Works';
-import Desc from './pages/Desc';
-import Story from './pages/Story';
-import Review from './pages/Review';
-import Bottom from './pages/Bottom';
-import ClientApplication from './pages/ClientApplication';
-import Contact from './pages/Contact';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import FloatingClientButton from './components/FloatingClientButton';
-import ScrollToTop from './components/ScrollToTop';
+import './App.css'
+import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Intro from './pages/Intro'
+import Services from './pages/Services'
+import Projects from './pages/Projects'
+import AboutUs from './pages/AboutUs'
+import Bottom from './pages/Bottom'
+import ClientApplication from './pages/ClientApplication'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
+import Loading from './pages/Loading'
 
-// Main HomePage Component
-const HomePage = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [showClientApplication, setShowClientApplication] = useState(false);
+function App() {
+    const [scrollY, setScrollY] = useState(0)
+    const [canShowServices, setCanShowServices] = useState(false)
+    const [canShowProjects, setCanShowProjects] = useState(false)
+    const [canShowAboutUs, setCanShowAboutUs] = useState(false)
+    const [canShowBottom, setCanShowBottom] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
-    const handleLoadingComplete = () => {
-        setIsLoading(false);
-    };
+    const handleLoadingComplete = () => setIsLoading(false)
 
-    const handleOpenClientApplication = () => {
-        setShowClientApplication(true);
-    };
+    useEffect(() => {
+        const handleScroll = () => {
+            const newScrollY = window.scrollY
+            setScrollY(newScrollY)
 
-    const handleCloseClientApplication = () => {
-        setShowClientApplication(false);
-    };
+            if (newScrollY < 2 * window.innerHeight) {
+                setCanShowServices(false)
+                setCanShowProjects(false)
+                setCanShowAboutUs(false)
+                setCanShowBottom(false)
+            }
+
+            if (newScrollY >= 2 * window.innerHeight && newScrollY < 3 * window.innerHeight) {
+                setCanShowServices(true)
+                setCanShowProjects(false)
+                setCanShowAboutUs(false)
+                setCanShowBottom(false)
+            }
+
+            if (newScrollY >= 3 * window.innerHeight && newScrollY < 4 * window.innerHeight) {
+                setCanShowServices(true)
+                setCanShowProjects(true)
+                setCanShowAboutUs(false)
+                setCanShowBottom(false)
+            }
+
+            if (newScrollY >= 4 * window.innerHeight && newScrollY < 5 * window.innerHeight) {
+                setCanShowServices(true)
+                setCanShowProjects(true)
+                setCanShowAboutUs(true)
+                setCanShowBottom(false)
+            }
+
+            if (newScrollY >= 5 * window.innerHeight) {
+                setCanShowServices(true)
+                setCanShowProjects(true)
+                setCanShowAboutUs(true)
+                setCanShowBottom(true)
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    // --- Translate animations ---
+    const introTranslateY =
+        scrollY < window.innerHeight ? Math.max(100 - (scrollY / window.innerHeight) * 100, 0) : 0
+
+    const servicesTranslateY = canShowServices
+        ? canShowProjects
+            ? canShowAboutUs
+                ? canShowBottom
+                    ? -300 // move up when Bottom appear
+                    : -200 // move up when AboutUs appear
+                : -100 // move up when Projects appear
+            : 0
+        : 100
+
+    const projectsTranslateY = canShowProjects
+        ? canShowAboutUs
+            ? canShowBottom
+                ? -200 // move up when Bottom appear
+                : -100 // move up when AboutUs appear
+            : 0
+        : 100
+
+    const aboutUsTranslateY = canShowAboutUs
+        ? canShowBottom
+            ? -100 // move up when Bottom appear
+            : 0
+        : 100
+
+    const bottomTranslateY = canShowBottom ? 0 : 100
+
+    if (isLoading) {
+        return <Loading onComplete={handleLoadingComplete} />
+    }
 
     return (
-            <div className="w-full">
-                {isLoading ? (
-                    <Loading onComplete={handleLoadingComplete} />
-                ) : (
-                    <>
-                        {/* Home - Sticky Background */}
-                        <div className="sticky top-0 z-10">
-                            <Home />
-                        </div>
+        <Routes>
+            <Route path="/" element={
+                <div className="relative" style={{ height: '600vh' }}>
+                    {/* Home */}
+                    <div className="fixed inset-0 z-10">
+                        <Home isVisible={true} />
+                    </div>
 
-                        {/* About - First scrollable from bottom, then becomes sticky when full screen */}
-                        <div className="relative z-20 h-screen">
-                        </div>
+                    {/* Intro */}
+                    <div
+                        className="fixed inset-0 z-20"
+                        style={{
+                            transform: `translateY(${introTranslateY}vh)`,
+                            transition: 'transform 0.3s ease-out',
+                        }}
+                    >
+                        <Intro isVisible={scrollY >= window.innerHeight} />
+                    </div>
 
-                        {/* After About is fully visible, it becomes sticky for Intro to slide over */}
-                        <div className="relative z-30">
-                            <div className="sticky top-0 z-10">
-                                <About />
-                            </div>
-                            
-                            {/* Intro - Slides up from bottom after About is sticky */}
-                            <div className="relative z-20" data-section="intro">
-                                <Intro />
-                            </div>
-                            
-                            {/* Services - Below Intro, higher z-index to stay on top */}
-                            <div className="relative z-30">
-                                <Services />
-                            </div>
-                            
-                            {/* Work - Below Services */}
-                            <div className="relative z-40" id="works">
-                                <Work />
-                            </div>
-                            
-                            {/* Desc - Below Work */}
-                            <div className="relative z-50">
-                                <Desc />
-                            </div>
-                            
-                            {/* Story - Below Desc */}
-                            <div className="relative z-60">
-                                <Story />
-                            </div>
-                            
-                            {/* Review - Below Story */}
-                            <div className="relative z-70">
-                                <Review />
-                            </div>
-                            
-                            {/* Bottom - Below Review */}
-                            <div className="relative z-80" data-section="bottom">
-                                <Bottom />
-                            </div>
-                        </div>
+                    {/* Services */}
+                    <div
+                        className="fixed inset-0 z-30"
+                        style={{
+                            transform: `translateY(${servicesTranslateY}vh)`,
+                            transition: 'transform 0.6s ease-out',
+                        }}
+                    >
+                        <Services showServices={canShowServices} translateY={servicesTranslateY} />
+                    </div>
 
-                    </>
-                )}
-                
-                {/* Floating Client Application Button */}
-                <FloatingClientButton onOpen={handleOpenClientApplication} />
-                
-                {/* Client Application Modal */}
-                {showClientApplication && (
-                    <ClientApplication onClose={handleCloseClientApplication} />
-                )}
-            </div>
-    );
-};
+                    {/* Projects */}
+                    <div
+                        className="fixed inset-0 z-40"
+                        style={{
+                            transform: `translateY(${projectsTranslateY}vh)`,
+                            transition: 'transform 0.6s ease-out',
+                        }}
+                    >
+                        <Projects showProjects={canShowProjects} />
+                    </div>
 
-const App = () => {
-    return (
-        <>
-            <ScrollToTop />
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/services" element={<ServicesPage />} />
-                <Route path="/work" element={<Works />} />
-                <Route path="/client-application" element={<ClientApplication />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-            </Routes>
-        </>
-    );
-};
+                    {/* AboutUs */}
+                    <div
+                        className="fixed inset-0 z-50"
+                        style={{
+                            transform: `translateY(${aboutUsTranslateY}vh)`,
+                            transition: 'transform 0.6s ease-out',
+                        }}
+                    >
+                        <AboutUs />
+                    </div>
 
-export default App;
+                    {/* Bottom */}
+                    <div
+                        className="fixed inset-0 z-[999]"
+                        style={{
+                            transform: `translateY(${bottomTranslateY}vh)`,
+                            transition: 'transform 0.6s ease-out',
+                        }}
+                    >
+                        <Bottom />
+                    </div>
+
+                </div>
+            } />
+            <Route path="/client-application" element={<ClientApplication />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+        </Routes>
+    )
+}
+
+export default App
