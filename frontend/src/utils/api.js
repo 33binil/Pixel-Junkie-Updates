@@ -4,6 +4,8 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 // Helper function to make API requests
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
+  console.log('API_BASE_URL:', API_BASE_URL);
+  console.log('Making API request to:', url);
   
   const config = {
     headers: {
