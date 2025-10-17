@@ -156,7 +156,7 @@ export default function AboutUs() {
                         style={{
                             strokeDasharray: pathLength,
                             strokeDashoffset: dashOffset,
-                            transition: "stroke-dashoffset 0.1s linear",
+                            transition: "stroke-dashoffset 0.2s linear",
                         }}
                     />
                 </svg>

@@ -115,7 +115,7 @@ function App() {
                         className="fixed inset-0 z-20"
                         style={{
                             transform: `translateY(${introTranslateY}vh)`,
-                            transition: 'transform 0.3s ease-out',
+                            transition: 'transform 0.6s ease',
                         }}
                     >
                         <Intro isVisible={scrollY >= window.innerHeight} />
@@ -126,7 +126,7 @@ function App() {
                         className="fixed inset-0 z-30"
                         style={{
                             transform: `translateY(${servicesTranslateY}vh)`,
-                            transition: 'transform 0.6s ease-out',
+                            transition: 'transform 1.0s ease',
                         }}
                     >
                         <Services showServices={canShowServices} translateY={servicesTranslateY} />
@@ -137,7 +137,7 @@ function App() {
                         className="fixed inset-0 z-40"
                         style={{
                             transform: `translateY(${projectsTranslateY}vh)`,
-                            transition: 'transform 0.6s ease-out',
+                            transition: 'transform 1.0s ease',
                         }}
                     >
                         <Projects showProjects={canShowProjects} />
@@ -148,7 +148,7 @@ function App() {
                         className="fixed inset-0 z-50"
                         style={{
                             transform: `translateY(${aboutUsTranslateY}vh)`,
-                            transition: 'transform 0.6s ease-out',
+                            transition: 'transform 1.0s ease',
                         }}
                     >
                         <AboutUs />
@@ -159,7 +159,7 @@ function App() {
                         className="fixed inset-0 z-[999]"
                         style={{
                             transform: `translateY(${bottomTranslateY}vh)`,
-                            transition: 'transform 0.6s ease-out',
+                            transition: 'transform 1.0s ease',
                         }}
                     >
                         <Bottom />
