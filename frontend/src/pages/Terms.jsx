@@ -10,7 +10,7 @@ const Terms = () => {
             {/* Hero Section with Image and Overlay */}
             <div className="relative w-full h-64 md:h-80 lg:h-96">
                 <img 
-                    src="/terms.jpg"
+                    src="/terms.webp"
                     alt="Terms of Use" 
                     className="w-full h-full object-cover"
                 />

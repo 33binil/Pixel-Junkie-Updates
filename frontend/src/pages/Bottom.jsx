@@ -43,8 +43,11 @@ const Bottom = () => {
                         <p className="text-[14px] md:text-[18px] text-gray-300 w-[255px] mb-4">
                             We bring ideas to life with design, technology, and creativity.
                         </p>
+                        <p className="text-[12px] md:text-[16px] text-gray-400 w-[255px] mb-4">
+                            24x7 Services through online texting.
+                        </p>
                         <div className="flex gap-[20px] justify-center sm:justify-start">
-                            <a href="#" className="hover:text-[#2ab4bc] transition-colors">
+                            <a href="https://www.instagram.com/pixeljunkiestudio.in?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="hover:text-[#2ab4bc] transition-colors">
                                 <Instagram size={25} className="sm:size-[30px]"/>
                             </a>
                             <button onClick={() => window.open('https://wa.me/9189213118291?text=Hey Pixel Junkie Team! I just visited your website and loved what I saw. I\'d love to discuss how you can help with my branding, design, or digital marketing needs. Let\'s chat!', '_blank')} className="hover:text-[#2ab4bc] transition-colors bg-transparent border-none cursor-pointer">
@@ -70,7 +73,7 @@ const Bottom = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <AtSign size={14} className="sm:size-[18px]"/>
-                                <span>pixeljunkiestudio@gmail.com</span>
+                                <span>pixeljunkiestudios.in@gmail.com</span>
                             </div>
                         </div>
                     </div>

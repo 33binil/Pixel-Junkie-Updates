@@ -10,7 +10,7 @@ const Privacy = () => {
             {/* Hero Section with Image and Overlay */}
             <div className="relative w-full h-64 md:h-80 lg:h-96">
                 <img 
-                    src="/privacy.jpg" 
+                    src="/Privacy.webp" 
                     alt="Privacy Notice" 
                     className="w-full h-full object-cover"
                 />
