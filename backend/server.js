@@ -132,7 +132,7 @@ app.post('/api/client-application', async (req, res) => {
     const emailPromises = [];
     
     // Send admin notification email
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.ADMIN_EMAIL) {
+    if (process.env.EMAIL_USER && process.env.SENDGRID_API_KEY && process.env.ADMIN_EMAIL) {
       emailPromises.push(
         sendAdminNotification(applicationData)
           .then(result => {
@@ -155,7 +155,7 @@ app.post('/api/client-application', async (req, res) => {
     }
     
     // Send client confirmation email
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    if (process.env.EMAIL_USER && process.env.SENDGRID_API_KEY) {
       emailPromises.push(
         sendClientConfirmation(applicationData)
           .then(result => {
