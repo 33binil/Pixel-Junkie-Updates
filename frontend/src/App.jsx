@@ -23,30 +23,33 @@ function App() {
     const handleLoadingComplete = () => setIsLoading(false)
 
     useEffect(() => {
+        let ticking = false
         const handleScroll = () => {
-            const newScrollY = window.scrollY
-            setScrollY(newScrollY)
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const newScrollY = window.scrollY
+                    setScrollY(newScrollY)
 
-            if (newScrollY < 2 * window.innerHeight) {
-                setCanShowServices(false)
-                setCanShowProjects(false)
-                setCanShowAboutUs(false)
-                setCanShowBottom(false)
-            }
+                    if (newScrollY < 2 * window.innerHeight) {
+                        setCanShowServices(false)
+                        setCanShowProjects(false)
+                        setCanShowAboutUs(false)
+                        setCanShowBottom(false)
+                    }
 
-            if (newScrollY >= 2 * window.innerHeight && newScrollY < 3 * window.innerHeight) {
-                setCanShowServices(true)
-                setCanShowProjects(false)
-                setCanShowAboutUs(false)
-                setCanShowBottom(false)
-            }
+                    if (newScrollY >= 2 * window.innerHeight && newScrollY < 3 * window.innerHeight) {
+                        setCanShowServices(true)
+                        setCanShowProjects(false)
+                        setCanShowAboutUs(false)
+                        setCanShowBottom(false)
+                    }
 
-            if (newScrollY >= 3 * window.innerHeight && newScrollY < 4 * window.innerHeight) {
-                setCanShowServices(true)
-                setCanShowProjects(true)
-                setCanShowAboutUs(false)
-                setCanShowBottom(false)
-            }
+                    if (newScrollY >= 3 * window.innerHeight && newScrollY < 4 * window.innerHeight) {
+                        setCanShowServices(true)
+                        setCanShowProjects(true)
+                        setCanShowAboutUs(false)
+                        setCanShowBottom(false)
+                    }
 
             if (newScrollY >= 4 * window.innerHeight && newScrollY < 5 * window.innerHeight) {
                 setCanShowServices(true)
@@ -55,12 +58,17 @@ function App() {
                 setCanShowBottom(false)
             }
 
-            if (newScrollY >= 5 * window.innerHeight) {
-                setCanShowServices(true)
-                setCanShowProjects(true)
-                setCanShowAboutUs(true)
-                setCanShowBottom(true)
+                    if (newScrollY >= 5 * window.innerHeight) {
+                        setCanShowServices(true)
+                        setCanShowProjects(true)
+                        setCanShowAboutUs(true)
+                        setCanShowBottom(true)
+                    }
+
+                    ticking = false
+                })
             }
+            ticking = true
         }
 
         window.addEventListener('scroll', handleScroll)
