@@ -1,26 +1,9 @@
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
-// Create email transporter
-const createTransporter = () => {
-  // Clean up environment values to avoid accidental spaces/groups from copy-paste
-  const emailUser = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : undefined;
-  const emailPass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, '') : undefined; // remove spaces in app-passwords
+// Set SendGrid API key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // use TLS
-    auth: {
-      user: emailUser,
-      pass: emailPass
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
-};
-
-// Email templates
+// Email templates (unchanged)
 const emailTemplates = {
   // Admin notification email
   adminNotification: (applicationData) => {
@@ -276,28 +259,22 @@ const emailTemplates = {
 // Send email function
 export const sendEmail = async (to, template, templateData) => {
   try {
-    const transporter = createTransporter();
-    
-    // Verify connection configuration
-    await transporter.verify();
-    console.log('✅ Email server connection verified');
-
     const emailContent = emailTemplates[template](templateData);
     
-    const mailOptions = {
-      from: {
-        name: 'Pixel Junkie Creative Studios',
-        address: process.env.EMAIL_USER
-      },
+    const msg = {
       to: to,
+      from: {
+        email: process.env.EMAIL_USER || 'noreply@pixeljunkie.com', // Must be verified in SendGrid
+        name: 'Pixel Junkie Creative Studios'
+      },
       subject: emailContent.subject,
       html: emailContent.html
     };
 
-    const result = await transporter.sendMail(mailOptions);
-    console.log(`📧 Email sent successfully to ${to}:`, result.messageId);
+    const result = await sgMail.send(msg);
+    console.log(`📧 Email sent successfully to ${to}:`, result[0]?.headers?.['x-message-id'] || 'sent');
     
-    return { success: true, messageId: result.messageId };
+    return { success: true, messageId: result[0]?.headers?.['x-message-id'] };
   } catch (error) {
     console.error('❌ Email sending failed:', error);
     return { success: false, error: error.message };
