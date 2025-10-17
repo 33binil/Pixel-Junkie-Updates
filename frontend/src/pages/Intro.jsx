@@ -30,7 +30,7 @@ const Intro = ({ isVisible }) => {
             {/* Black Box - Desktop */}
             <div className="hidden md:block absolute bottom-0 left-1/2 transform -translate-x-1/2">
                 <div
-                    className="bg-black border border-white/20 shadow-2xl transition-all duration-1000 ease-out"
+                    className="bg-black border border-white/20 shadow-2xl transition-all duration-2000 ease-out"
                     style={{
                         width: blackBoxExpanded ? '100vw' : '520px',
                         height: blackBoxExpanded ? '100vh' : '310px',
@@ -52,10 +52,9 @@ const Intro = ({ isVisible }) => {
                 </div>
             </div>
 
-            {/* Black Box - Mobile */}
             <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2">
                 <div
-                    className="bg-black border border-white/20 shadow-2xl transition-all duration-1000 ease-out"
+                    className="bg-black border border-white/20 shadow-2xl transition-all duration-2000 ease-out"
                     style={{
                         width: blackBoxExpanded ? '100vw' : '400px',
                         height: blackBoxExpanded ? '100vh' : '235px',

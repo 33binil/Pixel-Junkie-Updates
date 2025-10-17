@@ -115,7 +115,7 @@ function App() {
                         className="fixed inset-0 z-20"
                         style={{
                             transform: `translateY(${introTranslateY}vh)`,
-                            transition: 'transform 0.6s ease',
+                            transition: 'transform 1s ease-out',
                         }}
                     >
                         <Intro isVisible={scrollY >= window.innerHeight} />
