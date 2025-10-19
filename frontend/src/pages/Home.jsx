@@ -45,6 +45,19 @@ const Home = ({ isVisible }) => {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
     useEffect(() => {
+        const firstImage = isMobile ? MOBILE_IMAGES[0] : DESKTOP_IMAGES[0];
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = firstImage;
+        document.head.appendChild(link);
+        return () => {
+            if (document.head.contains(link)) {
+                document.head.removeChild(link);
+            }
+        };
+    }, [isMobile])
+    useEffect(() => {
         if (isVisible) {
             setShowElements(false)
             const timer = setTimeout(() => setShowElements(true), 500)
