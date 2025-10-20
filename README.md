@@ -104,7 +104,7 @@ Pixel Junkie v1.7.0/
 ## 📞 Support & Contact
 
 **Pixel Junkie Creative Studio**
-- 🌐 Website: [pixeljunkie.com](https://pixeljunkie.com)
+- 🌐 Website: [pixeljunkie.com](https://pixeljunkiestudio.in/)
 - 📧 Email: info@pixeljunkie.com
 - 📱 Phone: +91 89213 18291
 
