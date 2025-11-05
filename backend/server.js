@@ -23,7 +23,9 @@ app.use(helmet()); // Security headers
 const allowedOrigins = [
   'https://pixeljunkiestudio.in',
   'https://www.pixeljunkiestudio.in',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'http://localhost:5173',  // Vite dev server
+  'http://127.0.0.1:5173'   // Vite dev server (alternative)
 ];
 
 app.use(cors({

@@ -273,12 +273,15 @@ const sendEmail = async (to, template, templateData, options = {}) => {
     }
     
     console.log(`📧 Attempting to send ${template} email to:`, to);
-    console.log('📧 Using sender email:', process.env.RESEND_FROM_EMAIL);
     
     const email = emailTemplates[template](templateData);
     
+    // Use provided from email or fallback to environment variable
+    const fromEmail = options.from || `Pixel Junkie <${process.env.RESEND_FROM_EMAIL}>`;
+    console.log('📧 Using sender email:', fromEmail);
+    
     const emailData = {
-      from: `Pixel Junkie <${process.env.RESEND_FROM_EMAIL}>`,
+      from: fromEmail,
       to: to,
       subject: email.subject,
       html: email.html,
@@ -286,8 +289,13 @@ const sendEmail = async (to, template, templateData, options = {}) => {
     };
 
     // Add BCC if specified
-    if (options.bcc) {
+    if (options.bcc && options.bcc.length > 0) {
       emailData.bcc = Array.isArray(options.bcc) ? options.bcc : [options.bcc];
+    }
+    
+    // Add replyTo if specified
+    if (options.replyTo) {
+      emailData.reply_to = options.replyTo;
     }
 
     console.log('📧 Sending email with data:', {
@@ -326,22 +334,57 @@ export const sendAdminNotification = async (applicationData) => {
     return { success: false, error: 'Admin email not configured' };
   }
   
-  return await sendEmail(adminEmail, 'adminNotification', applicationData, {
-    bcc: [applicationData.email] // BCC the client to admin email
-  });
+  console.log(`📨 Sending admin notification to: ${adminEmail}`);
+  
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'service@pixeljunkiestudio.in';
+  return await sendEmail(
+    adminEmail, // Send to admin
+    'adminNotification', 
+    applicationData, 
+    {
+      from: `Pixel Junkie <${fromEmail}>`,
+      replyTo: applicationData.email, // Client can reply directly
+      bcc: [] // No BCC needed here
+    }
+  );
 };
 
 // Send client confirmation
 export const sendClientConfirmation = async (applicationData) => {
-  const clientEmail = applicationData.email;
-  if (!clientEmail) {
-    console.error('❌ Client email not provided');
-    return { success: false, error: 'Client email not provided' };
+  try {
+    const clientEmail = applicationData.email?.trim();
+    if (!clientEmail) {
+      console.error('❌ Client email not provided');
+      return { success: false, error: 'Client email not provided' };
+    }
+    
+    console.log(`📨 Sending client confirmation email to: ${clientEmail}`);
+    
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'service@pixeljunkiestudio.in';
+    const adminEmail = process.env.ADMIN_EMAIL;
+    
+    const result = await sendEmail(
+      clientEmail, // Send to client
+      'clientConfirmation', 
+      applicationData, 
+      {
+        from: `Pixel Junkie <${fromEmail}>`,
+        replyTo: adminEmail || fromEmail, // Replies go to admin
+        bcc: adminEmail ? [adminEmail] : [] // BCC admin if email is set
+      }
+    );
+    
+    if (result.success) {
+      console.log('✅ Client confirmation email sent successfully');
+    } else {
+      console.error('❌ Failed to send client confirmation email:', result.error);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('❌ Error in sendClientConfirmation:', error);
+    return { success: false, error: error.message };
   }
-  
-  return await sendEmail(clientEmail, 'clientConfirmation', applicationData, {
-    bcc: [process.env.ADMIN_EMAIL] // BCC the admin to client email
-  });
 };
 
 export default { sendEmail, sendAdminNotification, sendClientConfirmation };
