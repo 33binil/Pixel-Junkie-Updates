@@ -40,7 +40,7 @@ const Privacy = () => {
                     </div>
 
                     {/* Definitions and Interpretation */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             1. Definitions and Interpretation
                         </h2>
@@ -58,10 +58,10 @@ const Privacy = () => {
                                 </p>
                             </div>
                         </div>
-                    </section>
+                    </div>
 
                     {/* Information About Us */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             2. Information About Us
                         </h2>
@@ -79,10 +79,10 @@ const Privacy = () => {
                                 🌐 <a href="https://www.pixeljunkiestudio.in" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">www.pixeljunkiestudio.in</a>
                             </p>
                         </div>
-                    </section>
+                    </div>
 
                     {/* Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             3. Your Personal Data
                         </h2>
@@ -91,10 +91,10 @@ const Privacy = () => {
                             <li>Keep your personal data accurate and up-to-date.</li>
                             <li>If you do not provide required personal data, we may be unable to deliver certain services or products.</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Your Rights */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             4. Your Rights
                         </h2>
@@ -114,10 +114,10 @@ const Privacy = () => {
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             For any questions or requests, contact us at <a href="mailto:bussiness@pixeljunkiestudio.in" className="text-blue-600 hover:text-blue-800 underline">bussiness@pixeljunkiestudio.in</a>.
                         </p>
-                    </section>
+                    </div>
 
                     {/* What Data We Collect */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             5. What Data We Collect
                         </h2>
@@ -135,10 +135,10 @@ const Privacy = () => {
                             <li><strong>Cookies & Tracking Technologies:</strong> for analytics and user experience</li>
                             <li><strong>Other Information:</strong> additional data collected with your consent or as required by law</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* How We Use Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             6. How We Use Your Personal Data
                         </h2>
@@ -154,20 +154,20 @@ const Privacy = () => {
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             We do not use automated decision-making or profiling.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Keeping Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             7. Keeping Your Personal Data
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             We retain personal data only as long as necessary for the purpose it was collected, taking into account legal obligations and potential disputes. Data may be anonymised for research or statistical purposes.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Storing Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             8. Storing Your Personal Data
                         </h2>
@@ -181,10 +181,10 @@ const Privacy = () => {
                             <li>Confidentiality obligations for staff and contractors</li>
                             <li>Procedures for data breach management and notification</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Transferring and Sharing Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             9. Transferring and Sharing Your Personal Data
                         </h2>
@@ -208,20 +208,20 @@ const Privacy = () => {
                             <li>With authorities such as tax regulators</li>
                             <li>In the event of business sale or transfer</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Controlling and Withholding Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             10. Controlling and Withholding Your Personal Data
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             You may control how we use your data for marketing purposes (e.g., unsubscribing from emails). Some website features may require personal data to function.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Accessing Your Personal Data */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             11. Accessing Your Personal Data
                         </h2>
@@ -232,10 +232,10 @@ const Privacy = () => {
                             <li>Normally free of charge, unless requests are excessive</li>
                             <li>Responses provided within one month (up to three months if complex)</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Contact Details */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             12. Contact Details
                         </h2>
@@ -250,17 +250,17 @@ const Privacy = () => {
                                 🌐 <a href="https://www.pixeljunkiestudio.in/contact" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">www.pixeljunkiestudio.in/contact</a>
                             </p>
                         </div>
-                    </section>
+                    </div>
 
                     {/* Updates to This Privacy Notice */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             13. Updates to This Privacy Notice
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             We may update this Privacy Notice from time to time. The latest version will be published on Our Site, and continued use of Our Site constitutes acceptance of the updated terms.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Last Updated */}
                     <div className="border-t border-gray-300 pt-8 mt-12">

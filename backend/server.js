@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import connectDB from './config/database.js';
 import ClientApplication from './models/ClientApplication.js';
 import { sendAdminNotification, sendClientConfirmation } from './services/emailService.js';
@@ -18,8 +19,11 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(helmet()); // Security headers
+// CORS configuration - allowing all origins for development
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // React dev server default port
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 app.use(morgan('combined')); // Logging
@@ -125,53 +129,87 @@ app.post('/api/client-application', async (req, res) => {
     const clientApplication = new ClientApplication(applicationData);
     
     // Save to MongoDB
-    const savedApplication = await clientApplication.save();
-    console.log('✅ Client application saved to MongoDB:', savedApplication._id);
+    let savedApplication;
+    try {
+      if (mongoose.connection.readyState === 1) { // Check if MongoDB is connected
+        savedApplication = await clientApplication.save();
+        console.log('✅ Client application saved to MongoDB:', savedApplication._id);
+      } else {
+        throw new Error('MongoDB not connected');
+      }
+    } catch (dbError) {
+      console.error('❌ Error saving to MongoDB:', dbError.message);
+      // Create a temporary object with a valid _id format
+      const timestamp = Date.now().toString();
+      savedApplication = { 
+        _id: new mongoose.Types.ObjectId(),
+        ...clientApplication.toObject(),
+        isTemporary: true,
+        createdAt: new Date()
+      };
+      console.log('📝 Using temporary application data');
+    }
 
     // Send emails (don't wait for them to complete to avoid timeout)
     const emailPromises = [];
     
     // Send admin notification email
-    if (process.env.EMAIL_USER && process.env.SENDGRID_API_KEY && process.env.ADMIN_EMAIL) {
+    if (process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
       emailPromises.push(
         sendAdminNotification(applicationData)
-          .then(result => {
+          .then(async (result) => {
             if (result.success) {
-              // Update database to mark admin email as sent
-              ClientApplication.findByIdAndUpdate(savedApplication._id, {
-                'emailSent.adminNotification': true
-              }).exec();
               console.log('✅ Admin notification email sent');
+              
+              // Only try to update MongoDB if we have a real document
+              if (mongoose.connection.readyState === 1 && !savedApplication.isTemporary) {
+                try {
+                  await ClientApplication.findByIdAndUpdate(savedApplication._id, {
+                    'emailSent.adminNotification': true,
+                    'emailSent.adminNotificationAt': new Date()
+                  }).exec();
+                } catch (updateError) {
+                  console.error('❌ Error updating admin notification status in DB:', updateError.message);
+                }
+              }
             } else {
               console.error('❌ Admin notification email failed:', result.error);
             }
             return result;
           })
           .catch(error => {
-            console.error('❌ Admin notification email error:', error);
+            console.error('❌ Admin notification email error:', error.message);
             return { success: false, error: error.message };
           })
       );
     }
     
     // Send client confirmation email
-    if (process.env.EMAIL_USER && process.env.SENDGRID_API_KEY) {
+    if (process.env.RESEND_API_KEY && applicationData.email) {
       emailPromises.push(
         sendClientConfirmation(applicationData)
-          .then(result => {
+          .then(async (result) => {
             if (result.success) {
-              // Update database to mark client email as sent
-              ClientApplication.findByIdAndUpdate(savedApplication._id, {
-                'emailSent.clientConfirmation': true
-              }).exec();
               console.log('✅ Client confirmation email sent');
+              
+              // Only try to update MongoDB if we have a real document
+              if (mongoose.connection.readyState === 1 && !savedApplication.isTemporary) {
+                try {
+                  await ClientApplication.findByIdAndUpdate(savedApplication._id, {
+                    'emailSent.clientConfirmation': true,
+                    'emailSent.clientConfirmationAt': new Date()
+                  }).exec();
+                } catch (updateError) {
+                  console.error('❌ Error updating client confirmation status in DB:', updateError.message);
+                }
+              }
             } else {
               console.error('❌ Client confirmation email failed:', result.error);
             }
             return result;
           })
           .catch(error => {
-            console.error('❌ Client confirmation email error:', error);
+            console.error('❌ Client confirmation email error:', error.message);
             return { success: false, error: error.message };
           })
       );

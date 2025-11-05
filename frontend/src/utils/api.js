@@ -1,5 +1,5 @@
-// Base API configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Base API configuration - Using local backend for development
+const API_BASE_URL = 'http://localhost:3001';
 
 // Helper function to make API requests
 const apiRequest = async (endpoint, options = {}) => {

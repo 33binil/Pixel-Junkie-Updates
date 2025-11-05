@@ -36,8 +36,9 @@ const Terms = () => {
                         </p>
                     </div>
 
+
                     {/* Definitions and Interpretation */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             1. Definitions and Interpretation
                         </h2>
@@ -76,30 +77,30 @@ const Terms = () => {
                                 </p>
                             </div>
                         </div>
-                    </section>
+                    </div>
 
                     {/* Acceptance of Terms */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             2. Acceptance of Terms
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             By accessing or using Our Website, you agree to comply with and be bound by these Terms of Use. If you do not agree, please do not use our website.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Changes to Terms */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             3. Changes to Terms
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             We may revise these Terms of Use from time to time without notice. Continued use of the website after updates indicates acceptance of the revised terms.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Privacy and Data Protection */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             4. Privacy and Data Protection
                         </h2>
@@ -107,10 +108,10 @@ const Terms = () => {
                             <li>Your use of Our Website is also governed by Our Privacy Policy.</li>
                             <li>We collect and process personal data in accordance with applicable data protection laws.</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Account */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             5. Account
                         </h2>
@@ -119,10 +120,10 @@ const Terms = () => {
                             <li>Do not share your account details, and notify us immediately if you suspect unauthorized access.</li>
                             <li>You may close your account at any time, but access to account-restricted areas will then be disabled.</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Intellectual Property */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             6. Intellectual Property
                         </h2>
@@ -131,10 +132,10 @@ const Terms = () => {
                             <li>You may not reproduce, distribute, sell, sub-license, or create derivative works without our prior written consent.</li>
                             <li>You may access and view Content in a browser, print pages, and save pages for offline viewing, provided you acknowledge Pixel Junkie Creative Studio as the owner.</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* User Conduct */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             7. User Conduct
                         </h2>
@@ -144,47 +145,47 @@ const Terms = () => {
                             <li>Do not attempt to introduce viruses, malware, or disrupt Our Website.</li>
                             <li>We reserve the right to suspend or terminate access for violations.</li>
                         </ul>
-                    </section>
+                    </div>
 
                     {/* Disclaimers */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             8. Disclaimers
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             We make no guarantees that Our Website will meet your requirements, be error-free, or secure. We are not liable for inaccuracies or reliance on any Content.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Limitation of Liability */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             9. Limitation of Liability
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             To the fullest extent permitted by law, Pixel Junkie Creative Studio shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from use of Our Website.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Indemnification */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             10. Indemnification
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             You agree to indemnify and hold Us harmless from any claims, liabilities, or expenses arising from your use of Our Website or violation of these Terms.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Contact Information */}
-                    <section>
+                    <div>
                         <h2 className="text-2xl md:text-3xl font-bold font-afacad text-gray-800 mb-4">
                             12. Contact Information
                         </h2>
                         <p className="text-gray-700 font-afacad text-lg leading-relaxed">
                             If you have any questions or concerns about Our Website or these Terms of Use, please contact us via our Contact Us page or email us at <a href="mailto:business@pixeljunkiestudio.in" className="text-blue-600 hover:text-blue-800 underline">business@pixeljunkiestudio.in</a>.
                         </p>
-                    </section>
+                    </div>
 
                     {/* Last Updated */}
                     <div className="border-t border-gray-300 pt-8 mt-12">

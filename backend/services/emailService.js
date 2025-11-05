@@ -1,7 +1,16 @@
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
+import dotenv from 'dotenv';
 
-// Set SendGrid API key
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// Load environment variables
+dotenv.config();
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+if (!process.env.RESEND_API_KEY) {
+  console.error('❌ RESEND_API_KEY is not defined in environment variables');
+  process.exit(1);
+}
 
 // Email templates (unchanged)
 const emailTemplates = {
@@ -257,27 +266,55 @@ const emailTemplates = {
 };
 
 // Send email function
-export const sendEmail = async (to, template, templateData) => {
+const sendEmail = async (to, template, templateData, options = {}) => {
   try {
-    const emailContent = emailTemplates[template](templateData);
+    if (!Array.isArray(to)) {
+      to = [to]; // Convert to array if it's a single email
+    }
     
-    const msg = {
+    console.log(`📧 Attempting to send ${template} email to:`, to);
+    console.log('📧 Using sender email:', process.env.RESEND_FROM_EMAIL);
+    
+    const email = emailTemplates[template](templateData);
+    
+    const emailData = {
+      from: `Pixel Junkie <${process.env.RESEND_FROM_EMAIL}>`,
       to: to,
-      from: {
-        email: process.env.EMAIL_USER || 'noreply@pixeljunkie.com', // Must be verified in SendGrid
-        name: 'Pixel Junkie Creative Studios'
-      },
-      subject: emailContent.subject,
-      html: emailContent.html
+      subject: email.subject,
+      html: email.html,
+      text: email.text || ''
     };
 
-    const result = await sgMail.send(msg);
-    console.log(`📧 Email sent successfully to ${to}:`, result[0]?.headers?.['x-message-id'] || 'sent');
+    // Add BCC if specified
+    if (options.bcc) {
+      emailData.bcc = Array.isArray(options.bcc) ? options.bcc : [options.bcc];
+    }
+
+    console.log('📧 Sending email with data:', {
+      to: emailData.to,
+      subject: emailData.subject,
+      bcc: emailData.bcc ? '***BCC set***' : 'No BCC'
+    });
     
-    return { success: true, messageId: result[0]?.headers?.['x-message-id'] };
+    const { data, error } = await resend.emails.send(emailData);
+    
+    if (error) {
+      console.error('❌ Resend API Error:', error);
+      throw error;
+    }
+    
+    console.log('✅ Email sent successfully!');
+    console.log('📨 Message ID:', data?.id);
+    return { success: true, messageId: data?.id };
   } catch (error) {
-    console.error('❌ Email sending failed:', error);
-    return { success: false, error: error.message };
+    console.error('❌ Error in sendEmail:', error);
+    console.error('Error details:', {
+      to,
+      template,
+      errorMessage: error.message,
+      errorResponse: error.response?.data
+    });
+    throw error;
   }
 };
 
@@ -289,12 +326,22 @@ export const sendAdminNotification = async (applicationData) => {
     return { success: false, error: 'Admin email not configured' };
   }
   
-  return await sendEmail(adminEmail, 'adminNotification', applicationData);
+  return await sendEmail(adminEmail, 'adminNotification', applicationData, {
+    bcc: [applicationData.email] // BCC the client to admin email
+  });
 };
 
 // Send client confirmation
 export const sendClientConfirmation = async (applicationData) => {
-  return await sendEmail(applicationData.email, 'clientConfirmation', applicationData);
+  const clientEmail = applicationData.email;
+  if (!clientEmail) {
+    console.error('❌ Client email not provided');
+    return { success: false, error: 'Client email not provided' };
+  }
+  
+  return await sendEmail(clientEmail, 'clientConfirmation', applicationData, {
+    bcc: [process.env.ADMIN_EMAIL] // BCC the admin to client email
+  });
 };
 
 export default { sendEmail, sendAdminNotification, sendClientConfirmation };
