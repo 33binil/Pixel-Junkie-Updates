@@ -38,6 +38,7 @@ const Hero = () => {
     const [showElements, setShowElements] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(false);
+    const images = isMobile ? MOBILE_IMAGES : DESKTOP_IMAGES;
     const timerRef = useRef(null);
     const transitionTimeoutRef = useRef(null);
 
@@ -66,64 +67,57 @@ const Hero = () => {
         setShowElements(true);
     }, []);
 
-    // Preload images
+    // Initialize slideshow
     useEffect(() => {
-        const loadImage = (src) => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = src;
+        const loadImage = (src) => new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            if (img.complete) {
+                resolve();
+            } else {
                 img.onload = resolve;
-                img.onerror = reject;
-            });
-        };
-
-        const preloadImages = async () => {
-            const allImages = [...DESKTOP_IMAGES, ...MOBILE_IMAGES];
-            try {
-                await Promise.all(allImages.map(src => loadImage(src)));
-                setImagesLoaded(true);
-                // Start slideshow after images are loaded
-                startSlideshow();
-            } catch (error) {
-                console.error('Error loading images:', error);
-                setImagesLoaded(true); // Continue even if some images fail to load
-                startSlideshow();
+                img.onerror = resolve; // Continue even if some images fail
             }
+        });
+
+        const initSlideshow = async () => {
+            // Preload all images first
+            await Promise.all([...DESKTOP_IMAGES, ...MOBILE_IMAGES].map(loadImage));
+            
+            setImagesLoaded(true);
+            
+            // Start the slideshow
+            const slide = () => {
+                setCurrentIndex(prev => (prev + 1) % images.length);
+                timerRef.current = setTimeout(slide, 2000); // 2 seconds per slide
+            };
+            
+            // Initial delay before starting slideshow
+            timerRef.current = setTimeout(slide, 2000);
         };
 
-        preloadImages();
-
+        initSlideshow();
+        
         return () => {
             if (timerRef.current) clearTimeout(timerRef.current);
-            if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
         };
-    }, []);
+    }, [images.length]);
 
-    const startSlideshow = () => {
-        const images = isMobile ? MOBILE_IMAGES : DESKTOP_IMAGES;
+    // Simplified slideshow logic
+    useEffect(() => {
+        if (!imagesLoaded) return;
+        
         const nextIndex = (currentIndex + 1) % images.length;
-
-        // Show the next image sliding in
-        setShowNext(true);
-        setIsTransitioning(true);
-
-        // After slide-in animation completes
-        transitionTimeoutRef.current = setTimeout(() => {
-            // Update current and previous indices
+        
+        // Show next image after 2 seconds
+        const timer = setTimeout(() => {
             setPreviousIndex(currentIndex);
             setCurrentIndex(nextIndex);
-            setShowNext(false);
-            setIsTransitioning(false);
+        }, 2000);
+        
+        return () => clearTimeout(timer);
+    }, [currentIndex, imagesLoaded, images]);
 
-            // Schedule next transition after 2 seconds
-            timerRef.current = setTimeout(() => {
-                startSlideshow();
-            }, 2000);
-
-        }, 1000); // 1 second for slide-in animation
-    };
-
-    const images = isMobile ? MOBILE_IMAGES : DESKTOP_IMAGES;
     const nextIndex = (currentIndex + 1) % images.length;
 
     // Loading overlay with Lottie animation
@@ -154,7 +148,6 @@ const Hero = () => {
                             backgroundImage: `url(${images[previousIndex]})`,
                             zIndex: 1,
                         }}
-                        loading="lazy"
                         alt="Previous slide"
                     />
                 )}
@@ -166,22 +159,19 @@ const Hero = () => {
                         backgroundImage: `url(${images[currentIndex]})`,
                         zIndex: 2,
                     }}
-                    loading="lazy"
                     alt="Current slide"
                 />
 
-                {/* Next image - slides in from top */}
-                {showNext && (
-                    <div
-                        className="absolute inset-0 w-full h-full bg-cover bg-center transform -translate-y-full animate-slideIn"
-                        style={{
-                            backgroundImage: `url(${images[nextIndex]})`,
-                            zIndex: 3,
-                        }}
-                        loading="lazy"
-                        alt="Next slide"
-                    />
-                )}
+                {/* Next image - simple fade transition */}
+                <div
+                    className="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000"
+                    style={{
+                        backgroundImage: `url(${images[nextIndex]})`,
+                        zIndex: 2,
+                        opacity: isTransitioning ? 1 : 0,
+                    }}
+                    alt="Next slide"
+                />
             </div>
             
             {/* Navbar */}
