@@ -1,19 +1,20 @@
-// Base API configuration - Uses production backend URL in production, localhost in development
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://api.pixeljunkiestudio.in' 
-  : 'http://localhost:3001';
+// Base API configuration - Uses Vite environment variable for API URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 // Helper function to make API requests
 const apiRequest = async (endpoint, options = {}) => {
+  if (!endpoint.startsWith('/')) {
+    endpoint = `/${endpoint}`;
+  }
+  
   const url = `${API_BASE_URL}${endpoint}`;
-  console.log('API_BASE_URL:', API_BASE_URL);
-  console.log('Making API request to:', url);
   
   const config = {
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
+    credentials: 'include', // Important for cookies/auth
     ...options,
   };
 
