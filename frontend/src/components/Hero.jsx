@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Lottie from 'lottie-react';
+import loadingAnimation from '../../public/Loading.json';
 
 // Hamburger icon component
 const HamburgerIcon = () => (
@@ -11,19 +13,19 @@ const HamburgerIcon = () => (
 );
 
 const DESKTOP_IMAGES = [
-    '/home1.webp',
-    '/home2.webp',
-    '/home3.webp',
-    '/home4.webp',
-    '/home5.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home1.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home2.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home3.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home4.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home5.webp',
 ];
 
 const MOBILE_IMAGES = [
-    '/home11.webp',
-    '/home22.webp',
-    '/home33.webp',
-    '/home44.webp',
-    '/home55.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home11.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home22.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home33.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home44.webp',
+    'https://github.com/33binil/Pixel-Junkie-Updates/raw/main/frontend/public/home55.webp',
 ];
 
 const Hero = () => {
@@ -35,6 +37,7 @@ const Hero = () => {
     const [showNext, setShowNext] = useState(false);
     const [showElements, setShowElements] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
     const timerRef = useRef(null);
     const transitionTimeoutRef = useRef(null);
 
@@ -63,18 +66,38 @@ const Hero = () => {
         setShowElements(true);
     }, []);
 
-    // Start slideshow on component mount
+    // Preload images
     useEffect(() => {
-        // Start slideshow after 2 seconds
-        timerRef.current = setTimeout(() => {
-            startSlideshow();
-        }, 2000);
+        const loadImage = (src) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = resolve;
+                img.onerror = reject;
+            });
+        };
+
+        const preloadImages = async () => {
+            const allImages = [...DESKTOP_IMAGES, ...MOBILE_IMAGES];
+            try {
+                await Promise.all(allImages.map(src => loadImage(src)));
+                setImagesLoaded(true);
+                // Start slideshow after images are loaded
+                startSlideshow();
+            } catch (error) {
+                console.error('Error loading images:', error);
+                setImagesLoaded(true); // Continue even if some images fail to load
+                startSlideshow();
+            }
+        };
+
+        preloadImages();
 
         return () => {
             if (timerRef.current) clearTimeout(timerRef.current);
             if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
         };
-    }, [currentIndex]); // Add currentIndex to dependency array to avoid stale closures
+    }, []);
 
     const startSlideshow = () => {
         const images = isMobile ? MOBILE_IMAGES : DESKTOP_IMAGES;
@@ -103,6 +126,22 @@ const Hero = () => {
     const images = isMobile ? MOBILE_IMAGES : DESKTOP_IMAGES;
     const nextIndex = (currentIndex + 1) % images.length;
 
+    // Loading overlay with Lottie animation
+    if (!imagesLoaded) {
+        return (
+            <div className="fixed inset-0 w-full h-screen flex flex-col items-center justify-center bg-black z-50">
+                <div className="w-64 h-64">
+                    <Lottie 
+                        animationData={loadingAnimation} 
+                        loop={true} 
+                        autoplay={true}
+                    />
+                </div>
+            
+            </div>
+        );
+    }
+
     return (
         <div className="relative w-full h-screen overflow-hidden">
             {/* Background images with slideshow */}
@@ -115,6 +154,8 @@ const Hero = () => {
                             backgroundImage: `url(${images[previousIndex]})`,
                             zIndex: 1,
                         }}
+                        loading="lazy"
+                        alt="Previous slide"
                     />
                 )}
 
@@ -125,6 +166,8 @@ const Hero = () => {
                         backgroundImage: `url(${images[currentIndex]})`,
                         zIndex: 2,
                     }}
+                    loading="lazy"
+                    alt="Current slide"
                 />
 
                 {/* Next image - slides in from top */}
@@ -135,6 +178,8 @@ const Hero = () => {
                             backgroundImage: `url(${images[nextIndex]})`,
                             zIndex: 3,
                         }}
+                        loading="lazy"
+                        alt="Next slide"
                     />
                 )}
             </div>
