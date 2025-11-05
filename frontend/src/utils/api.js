@@ -1,5 +1,7 @@
-// Base API configuration - Using local backend for development
-const API_BASE_URL = 'http://localhost:3001';
+// Base API configuration - Uses production backend URL in production, localhost in development
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://api.pixeljunkiestudio.in' 
+  : 'http://localhost:3001';
 
 // Helper function to make API requests
 const apiRequest = async (endpoint, options = {}) => {
