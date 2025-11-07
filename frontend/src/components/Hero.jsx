@@ -205,8 +205,7 @@ const Hero = () => {
 
                 <div>
                     <h1
-                        className="font-dela font-bold text-white leading-none mb-4"
-                        style={{ fontSize: 'clamp(2.5rem, 6vw, 9rem)' }}
+                        className="font-dela font-bold text-white leading-none mb-4 text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl 2xl:text-[10rem]"
                     >
                         Pixel Junkie
                     </h1>
